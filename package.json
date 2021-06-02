@@ -1,6 +1,6 @@
 {
   "name": "kongou",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "description": "A node.js battleship that directly uses nhentai's API.",
   "main": "./src/index.js",
   "dependencies": {
