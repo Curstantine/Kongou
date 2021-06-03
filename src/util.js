@@ -17,7 +17,7 @@ const {
  * @returns {Promise<APIResponse>}
  */
 
-function request(endpoint, method = "GET") {
+function APIRequest(endpoint, method = "GET") {
   return new Promise(async (resolve, reject) => {
     if (!endpoint || endpoint.length == 0) {
       reject(new KongouError("KA001", "No Endpoint Given."));
@@ -89,4 +89,4 @@ function request(endpoint, method = "GET") {
     req.end();
   });
 }
-module.export = request;
+module.exports = { APIRequest };
