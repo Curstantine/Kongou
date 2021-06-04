@@ -87,9 +87,9 @@ declare class Kongou {
     tags: Tags[];
     /**
      * Array of images of this object.
-     * @type {Images[]}
+     * @type {Images}
      */
-    images: Images[];
+    images: Images;
     /**
      * Number of pages for this object.
      * @type {Number}

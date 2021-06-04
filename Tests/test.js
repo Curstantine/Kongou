@@ -32,4 +32,3 @@ describe("get()", function () {
     });
   });
 });
-Kongou.quer;
