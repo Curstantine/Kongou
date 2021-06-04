@@ -25,7 +25,13 @@ For more information regarding possible error codes, check this [MDN Web Documen
 
 Retuned when no results were found for the given keyword/s.
 
-`KongouClientError: No Results Found for the Given Keywords [K001]`
+`KongouClientError: No Results Found for the Given Keywords. [K001]`
+
+### K002
+
+Retuned when no search parameters are given
+
+`KongouClientError: No Search Parameters Given. [K002]`
 
 ## KA
 
