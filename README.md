@@ -66,7 +66,7 @@ searchParameter object accepts:
 
 ## Contributors
 
-[Tracreed](https://git.fuyu.moe/Tracreed)
+[Tracreed](https://git.fuyu.moe/Tracreed)  
 [sinkaroid](https://github.com/sinkaroid)
 
 [![Discord](https://img.shields.io/discord/698062395263942686?color=%235A71C3&label=Discord&logo=discord&logoColor=white)](https://discord.gg/ymuR2htTfy)
