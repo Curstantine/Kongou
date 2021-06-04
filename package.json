@@ -1,7 +1,7 @@
 {
   "name": "kongou",
-  "version": "3.0.0",
-  "description": "A node.js battleship that directly uses nhentai's API.",
+  "version": "3.0.1",
+  "description": "Strongly typed nhentai wrapper that directly uses nhentai's infamous api without any dependencies.",
   "main": "./src/index.js",
   "types": "./Types/index.d.ts",
   "scripts": {
