@@ -111,7 +111,9 @@ function APIQueryRequest(endpoint, method = "GET", searchParameters = {}) {
     if (searchParameters.length === 0 || typeof searchParameters !== "object") {
       reject(new KongouError("KOO2", "No Search Parameters Given."));
     }
-    const cleanedSearchObject = `?query=${searchParameters.keyword}&sort=${searchParameters.sort}&page=${searchParameters.sort}`;
+    const cleanedSearchObject = `?query=${encodeURI(
+      searchParameters.keyword
+    )}&sort=${searchParameters.sort}&page=${searchParameters.sort}`;
     const options = {
       hostname: "nhentai.net",
       path: "/api/" + endpoint + cleanedSearchObject,

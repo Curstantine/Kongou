@@ -29,7 +29,7 @@ class Images {
         `https://i.nhentai.net/galleries/${id}/${[i + 1]}.${TYPE[page.t]}`
       );
       thumbnails.push(
-        `https://t.nhentai.net/galleries/${id}/${[i + 1]}.${TYPE[page.t]}`
+        `https://t.nhentai.net/galleries/${id}/${[i + 1]}t.${TYPE[page.t]}`
       );
     });
     return {

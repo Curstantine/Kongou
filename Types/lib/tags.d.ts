@@ -1,5 +1,6 @@
 export = Tags;
 declare class Tags {
+    static getTags(tagArray: any): any[];
     /**
      * @type {Tags[]}
      */
@@ -24,9 +25,4 @@ declare class Tags {
      * @type {Number}
      */
     count: number;
-    /**
-     * Category of this tag.
-     * @type {String}
-     */
-    category: string;
 }

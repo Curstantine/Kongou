@@ -1,6 +1,5 @@
 const Kongou = require("../src/index");
 var assert = require("assert");
-
 const stuff = {
   keyword: "Feticolle",
   id: "",
@@ -15,4 +14,6 @@ const stuff = {
     assert.strictEqual(typeof response[0].id, "number");
   });
 });*/
-Kongou.query("Mom");
+Kongou.get(178513).then((data) => {
+  console.log(data);
+});

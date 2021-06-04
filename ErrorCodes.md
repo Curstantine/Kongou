@@ -33,6 +33,12 @@ Retuned when no search parameters are given
 
 `KongouClientError: No Search Parameters Given. [K002]`
 
+### K003
+
+Given id is not a number.
+
+`KongouClientError: Given id is not a number [K003]`
+
 ## KA
 
 ### KAOO1
