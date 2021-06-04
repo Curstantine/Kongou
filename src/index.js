@@ -71,7 +71,7 @@ class Kongou {
     this.tags = Tags.getTags(response.tags);
     /**
      * Array of images of this object.
-     * @type {Images[]}
+     * @type {Images}
      */
     this.images = Images.getImages(response.images, response.media_id);
     /**
@@ -138,7 +138,7 @@ class Kongou {
           reject(new KongouClientError("K003", "Given ID is not a Number."));
         }
       }
-      APIRequest(`/gallery/${id}`).then((response) => {
+      APIRequest(`/api/gallery/${id}`).then((response) => {
         resolve(Kongou.cleanObject(response));
       });
     });

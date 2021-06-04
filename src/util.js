@@ -24,7 +24,7 @@ function APIRequest(endpoint, method = "GET") {
     }
     const options = {
       hostname: "nhentai.net",
-      path: "/api/" + endpoint,
+      path: endpoint,
       method: method,
     };
 
