@@ -42,25 +42,47 @@ class Kongou {
    * @private
    * @typedef {Object} QueryParamObject
    * @property {String} QueryParamObject.keyword
-   * @property {Number} QueryParamObject.sort
+   * @property {'popular-today' | 'popular-week' | 'popular'} QueryParamObject.sort
    * @property {Number} QueryParamObject.page
    */
   /**
    * Peforms a search and returns an array of books.
    * https://nhentai.net/api/galleries/search?query=
+   *
+   * ## Example
+   *
+   * ```js
+   * const Kongou = require("kongou")
+   * Kongou
+   * .query({ keyword: "Feticolle", sort: "popular", page: 1 })
+   * .then((data) => console.log(data));
+   * ```
    * @param {QueryParamObject} [searchParameters] An object of search parameters, or a string representing the title
    * @returns {Promise<Kongou>}
    */
   query(searchParameters = {}) {
-    return new Promise(() => {
-      if (typeof searchParameters === String) {
-        searchparams = {
-          keyword: searchparams,
+    return new Promise((resolve, reject) => {
+      if (typeof searchParameters === "string") {
+        searchParameters = {
+          keyword: searchParameters,
           sort: "popular-today",
           page: 1,
         };
+      } else {
+        searchParameters = {
+          keyword: searchParameters.keyword,
+          sort: searchParameters.sort ? searchParameters.sort : "popular-today",
+          page: searchParameters.page ? searchParameters.page : 1,
+        };
       }
-      return APIQueryRequest("galleries/search", "GET", searchParameters);
+      console.log(searchParameters);
+      APIQueryRequest("galleries/search", "GET", searchParameters).then(
+        (response) => {
+          response.forEach((result) => {
+            console.log(result.id);
+          });
+        }
+      );
     });
   }
 }

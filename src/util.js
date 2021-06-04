@@ -83,8 +83,8 @@ function APIRequest(endpoint, method = "GET") {
       });
     });
 
-    req.on("error", (e) => {
-      console.error(e);
+    req.on("error", (err) => {
+      reject(new KongouServerError("KA003", err.message));
     });
     req.end();
   });
@@ -108,7 +108,7 @@ function APIQueryRequest(endpoint, method = "GET", searchParameters = {}) {
     if (!endpoint || endpoint.length == 0) {
       reject(new KongouError("KA001", "No Endpoint Given."));
     }
-    if (!searchParameters || typeof searchParameters !== Object) {
+    if (searchParameters.length === 0 || typeof searchParameters !== "object") {
       reject(new KongouError("KOO2", "No Search Parameters Given."));
     }
     const cleanedSearchObject = `?query=${searchParameters.keyword}&sort=${searchParameters.sort}&page=${searchParameters.sort}`;
@@ -144,7 +144,7 @@ function APIQueryRequest(endpoint, method = "GET", searchParameters = {}) {
                   )
                 );
               }
-              resolve(json);
+              resolve(json.result);
             } else if (res.statusCode < 400) {
               reject(
                 new KongouServerError(
@@ -173,8 +173,8 @@ function APIQueryRequest(endpoint, method = "GET", searchParameters = {}) {
       });
     });
 
-    req.on("error", (e) => {
-      console.error(e);
+    req.on("error", (err) => {
+      reject(new KongouServerError("KA003", err.message));
     });
     req.end();
   });

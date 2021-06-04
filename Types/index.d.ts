@@ -37,7 +37,7 @@ declare class Kongou {
      * @private
      * @typedef {Object} QueryParamObject
      * @property {String} QueryParamObject.keyword
-     * @property {Number} QueryParamObject.sort
+     * @property {'popular-today' | 'popular-week' | 'popular'} QueryParamObject.sort
      * @property {Number} QueryParamObject.page
      */
     /**
@@ -48,7 +48,7 @@ declare class Kongou {
      */
     query(searchParameters?: {
         keyword: string;
-        sort: number;
+        sort: 'popular-today' | 'popular-week' | 'popular';
         page: number;
     }): Promise<Kongou>;
 }

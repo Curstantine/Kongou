@@ -1,12 +1,11 @@
 {
   "include": [
-    "src/**/*"
-  ],
+    "src/**/*"],
   "compilerOptions": {
     "allowJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "types",
+    "outDir": "Types",
     "lib": [ "ES2020" ],
     "module": "ES2020"
   }

@@ -48,6 +48,12 @@ Returned a `null` result.
 
 `KongouServerError: Returned response is null. [KA002]`
 
+### KA003
+
+Error returned by either `HTTPS` or the server, maybe related to your connection too.
+
+`KongouServerError: {Enter Generic Error Message Here} [KA003]`
+
 ## KC
 
 ### KC001
