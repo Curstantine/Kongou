@@ -15,7 +15,7 @@ class Kongou {
     if (!response) return;
     /**
      * nhentai id of this object
-     * @type {String}
+     * @type {Number}
      */
     this.id = response.id;
     /**
@@ -34,6 +34,11 @@ class Kongou {
       native: "",
       pretty: "",
     };
+    /**
+     * Site url of this object.
+     * @type {String}
+     */
+    this.siteURL = `https://nhentai/g/${response.id}`;
     /**
      * Array of artists, if available.
      * @type {Artists[]}
@@ -72,6 +77,7 @@ class Kongou {
     /**
      * Array of images of this object.
      * @type {Images}
+     * @property {Array} pages
      */
     this.images = Images.getImages(response.images, response.media_id);
     /**
@@ -85,7 +91,6 @@ class Kongou {
      */
     this.num_favorites = response.num_favorites;
   }
-
   static cleanObject(response) {
     return {
       id: parseInt(response.id),
@@ -134,7 +139,7 @@ class Kongou {
   get(id) {
     return new Promise(async (resolve, reject) => {
       if (typeof id !== "number") {
-        if (!isNaN(parseInt(id))) {
+        if (isNaN(parseInt(id))) {
           reject(new KongouClientError("K003", "Given ID is not a Number."));
         }
       }
