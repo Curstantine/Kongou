@@ -2,6 +2,12 @@ export = Artists;
 declare class Artists {
     static getArtists(artistArray: any): any[];
     /**
+     * Array of artists, if available.
+     *
+     * ```js
+     * {
+     * }
+     * ```
      * @type {Artists[]}
      */
     constructor(artistObject: any);

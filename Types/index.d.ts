@@ -1,5 +1,16 @@
-declare const _exports: Kongou;
-export = _exports;
+export type QueryParamObject = {
+    keyword: string;
+    sort: 'popular-today' | 'popular-week' | 'popular';
+    page: number;
+};
+import Artists = require("./lib/artists");
+import Category = require("./lib/category");
+import Characters = require("./lib/characters");
+import Groups = require("./lib/groups");
+import Languages = require("./lib/languages");
+import Parodies = require("./lib/parodies");
+import Tags = require("./lib/tags");
+import Images = require("./lib/images");
 declare class Kongou {
     static cleanObject(response: any): {
         id: number;
@@ -22,8 +33,8 @@ declare class Kongou {
         parodies: any[];
         tags: any[];
         images: {
-            pages: any[];
-            thumbnails: any[];
+            pages: any;
+            thumbnails: any;
         };
         num_pages: number;
         num_favorites: number;
@@ -31,9 +42,9 @@ declare class Kongou {
     constructor(response: any);
     /**
      * nhentai id of this object
-     * @type {String}
+     * @type {Number}
      */
-    id: string;
+    id: number;
     /**
      * Media id of this object.
      * @type {Number}
@@ -50,6 +61,11 @@ declare class Kongou {
         native: string;
         pretty: string;
     };
+    /**
+     * Site url of this object.
+     * @type {String}
+     */
+    siteURL: string;
     /**
      * Array of artists, if available.
      * @type {Artists[]}
@@ -88,6 +104,7 @@ declare class Kongou {
     /**
      * Array of images of this object.
      * @type {Images}
+     * @property {Array} pages
      */
     images: Images;
     /**
@@ -138,17 +155,65 @@ declare class Kongou {
      * @param {QueryParamObject} [searchParameters] An object of search parameters, or a string representing the title
      * @returns {Promise<Kongou[]>}
      */
-    query(searchParameters?: {
-        keyword: string;
-        sort: 'popular-today' | 'popular-week' | 'popular';
-        page: number;
-    }): Promise<Kongou[]>;
+    query(searchParameters?: QueryParamObject): Promise<Kongou[]>;
+    random(): void;
 }
-import Artists = require("./lib/artists");
-import Category = require("./lib/category");
-import Characters = require("./lib/characters");
-import Groups = require("./lib/groups");
-import Languages = require("./lib/languages");
-import Parodies = require("./lib/parodies");
-import Tags = require("./lib/tags");
-import Images = require("./lib/images");
+declare const id: number;
+declare const media_id: number;
+declare namespace title {
+    const english: string;
+    const native: string;
+    const pretty: string;
+}
+declare const siteURL: string;
+declare const artist: Artists[];
+declare const category: Category[];
+declare const characters: Characters[];
+declare const groups: Groups[];
+declare const languages: Languages[];
+declare const parodies: Parodies[];
+declare const tags: Tags[];
+declare const images: Images;
+declare const pages: number;
+declare const num_favorites: number;
+/**
+ * Returns an object of data specific to the supplied id.
+ * https://nhentai.net/api/gallery/
+ *
+ * ## Example
+ *
+ * ```js
+ * const Kongou = require("kongou");
+ * Kongou
+ *  .get(178513)
+ *  .then((data) => console.log(data));
+ * ```
+ * @param {Number} id
+ * @returns {Promise<Kongou>}
+ */
+declare function get(id: number): Promise<Kongou>;
+/**
+ * @private
+ * @typedef {Object} QueryParamObject
+ * @property {String} QueryParamObject.keyword
+ * @property {'popular-today' | 'popular-week' | 'popular'} QueryParamObject.sort
+ * @property {Number} QueryParamObject.page
+ */
+/**
+ * Peforms a search and returns an array of books.
+ * https://nhentai.net/api/galleries/search?query=
+ *
+ * ## Example
+ *
+ * ```js
+ * const Kongou = require("kongou")
+ * Kongou
+ * .query({ keyword: "Feticolle", sort: "popular", page: 1 })
+ * .then((data) => console.log(data));
+ * ```
+ * @param {QueryParamObject} [searchParameters] An object of search parameters, or a string representing the title
+ * @returns {Promise<Kongou[]>}
+ */
+declare function query(searchParameters?: QueryParamObject): Promise<Kongou[]>;
+declare function random(): void;
+export {};
