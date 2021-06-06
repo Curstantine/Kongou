@@ -1,10 +1,31 @@
 # Changelog
 
+## v3.0.2
+
+New version, more bugs, more stuff for me to mess up.
+
+- Fixed the `pages` typing problem
+
+- Updated docs and explaination on typings.
+
+- Fixed API response error bug.
+
+- Made all of the methods static so no more new constructor BS.
+  ```js
+  const Kongou = require("kongou");
+  Kongou.get() || Kongou.query({});
+  ```
+- Removed useless stuff from the package.
+
+- `get()` supports links now.
+
+- And.... **_MOAR TYPINGS!!_**
+
 ## v3.0.1
 
 New version, new package.
 
-- Added Artist, Categorym Character, Group, Language, Parody tags.
+- Added Artist, Category, Character, Group, Language, Parody tags.
 
 - [New Error Codes](./ErrorCodes.md)
 

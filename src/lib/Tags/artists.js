@@ -15,6 +15,7 @@ class Artists {
    *
    * ```js
    * {
+   * id:
    * }
    * ```
    * @type {Artists[]}
@@ -37,7 +38,7 @@ class Artists {
      */
     this.url = artistObject.url;
     /**
-     * Count of this artist.
+     * Number of results for this artist.
      * @type {Number}
      */
     this.count = artistObject.count;

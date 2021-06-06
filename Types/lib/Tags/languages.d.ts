@@ -21,7 +21,7 @@ declare class Languages {
      */
     url: string;
     /**
-     * Count of this language.
+     * Number of results for this language.
      * @type {Number}
      */
     count: number;

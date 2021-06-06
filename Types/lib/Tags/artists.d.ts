@@ -6,6 +6,7 @@ declare class Artists {
      *
      * ```js
      * {
+     * id:
      * }
      * ```
      * @type {Artists[]}
@@ -27,7 +28,7 @@ declare class Artists {
      */
     url: string;
     /**
-     * Count of this artist.
+     * Number of results for this artist.
      * @type {Number}
      */
     count: number;

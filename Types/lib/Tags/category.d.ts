@@ -21,7 +21,7 @@ declare class Category {
      */
     url: string;
     /**
-     * Count of this category.
+     * Number of results for this category.
      * @type {Number}
      */
     count: number;

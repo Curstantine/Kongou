@@ -31,7 +31,7 @@ class Category {
      */
     this.url = categoryObject.url;
     /**
-     * Count of this category.
+     * Number of results for this category.
      * @type {Number}
      */
     this.count = categoryObject.count;

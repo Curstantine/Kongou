@@ -35,9 +35,9 @@ Retuned when no search parameters are given
 
 ### K003
 
-Given id is not a number.
+Kongou accepts `"https://nhentai.net/g/172132/" || "nhentai.net/g/172132/" || "172132" || 172132` as the parameter, anything other than these return this error.
 
-`KongouClientError: Given id is not a number [K003]`
+`KongouClientError: Given ID is not Acceptable. [K003]`
 
 ## KA
 

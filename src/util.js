@@ -33,7 +33,6 @@ function APIRequest(endpoint, method = "GET") {
         responseData += data;
       });
       res.on("end", () => {
-        console.log(res);
         if (
           res.headers["content-type"] !== undefined ||
           res.headers["content-type"].includes("json")

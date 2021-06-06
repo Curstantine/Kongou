@@ -31,7 +31,7 @@ class Tags {
      */
     this.url = tagObject.url;
     /**
-     * Count of this tag.
+     * Number of results for this tag.
      * @type {Number}
      */
     this.count = tagObject.count;
