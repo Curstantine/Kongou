@@ -25,10 +25,12 @@ Kongou.get("nhentai.net/g/356450")
       keyword: "Feticolle",
       page: "1",
       sort: "popular-week",
-    }).then((data) => {
-      console.warn("\n" + "query()" + "\n");
-      console.log(data[0]);
-    });
+    })
+      .then((data) => {
+        console.warn("\n" + "query()" + "\n");
+        console.log(data[0]);
+      })
+      .catch((error) => console.log(error.message));
   })
   .catch((error) => {
     console.log(error);

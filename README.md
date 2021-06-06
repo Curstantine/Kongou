@@ -190,4 +190,4 @@ npm run generic // runs a generic test... lol
 The ShipGirl Project, feat Kongou; ⓒ Kancolle
 ```
 
-[![Discord](https://img.shields.io/discord/698062395263942686?color=%235A71C3&label=Discord&logo=discord&logoColor=white)](https://discord.gg/ymuR2htTfy)
+[![Discord](https://img.shields.io/discord/851119818668769330?color=%235A71C3&label=Discord&logo=discord&logoColor=white)](https://discord.gg/tkXBj7hg9h)
