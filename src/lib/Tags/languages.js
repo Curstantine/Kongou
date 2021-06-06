@@ -31,7 +31,7 @@ class Languages {
      */
     this.url = languageObject.url;
     /**
-     * Count of this language.
+     * Number of results for this language.
      * @type {Number}
      */
     this.count = languageObject.count;

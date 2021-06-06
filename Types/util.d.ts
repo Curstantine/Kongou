@@ -4,7 +4,7 @@
  * ## Example
  *
  * ```js
- * APIrequest('/gallery/231193').then((data) => console.log(data));
+ * APIrequest('/api/gallery/231193').then((data) => console.log(data));
  * ```
  * @param {String} endpoint
  * @param {'GET'} [method='GET']

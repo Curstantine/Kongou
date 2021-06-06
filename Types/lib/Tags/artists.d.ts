@@ -2,6 +2,13 @@ export = Artists;
 declare class Artists {
     static getArtists(artistArray: any): any[];
     /**
+     * Array of artists, if available.
+     *
+     * ```js
+     * {
+     * id:
+     * }
+     * ```
      * @type {Artists[]}
      */
     constructor(artistObject: any);
@@ -21,7 +28,7 @@ declare class Artists {
      */
     url: string;
     /**
-     * Count of this artist.
+     * Number of results for this artist.
      * @type {Number}
      */
     count: number;

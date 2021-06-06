@@ -21,7 +21,7 @@ declare class Parodies {
      */
     url: string;
     /**
-     * Count of this parody.
+     * Number of results for this parody.
      * @type {Number}
      */
     count: number;

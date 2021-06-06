@@ -31,7 +31,7 @@ class Characters {
      */
     this.url = characterObject.url;
     /**
-     * Count of this character.
+     * Number of results for this character.
      * @type {Number}
      */
     this.count = characterObject.count;

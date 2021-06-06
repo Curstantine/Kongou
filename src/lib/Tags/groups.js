@@ -31,7 +31,7 @@ class Groups {
      */
     this.url = groupObject.url;
     /**
-     * Count of this group.
+     * Number of results for this group.
      * @type {Number}
      */
     this.count = groupObject.count;

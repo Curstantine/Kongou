@@ -21,7 +21,7 @@ declare class Tags {
      */
     url: string;
     /**
-     * Count of this tag.
+     * Number of results for this tag.
      * @type {Number}
      */
     count: number;

@@ -5,16 +5,18 @@ const stuff = {
   id: 178513,
 };
 describe("query()", function () {
-  it("Query - String", function () {
+  it("query() - String", function () {
     Kongou.query(stuff.keyword).then((response) => {
       assert.strictEqual(typeof response[0].id, "number");
     });
   });
   this.timeout(1000);
-  it("Query - Object", function () {
-    Kongou.query({ keyword: stuff.keyword, sort: "popular" }).then((data) => {
-      assert.strictEqual(typeof response[0].id, "number");
-    });
+  it("query() - Object", function () {
+    Kongou.query({ keyword: stuff.keyword, sort: "popular" }).then(
+      (response) => {
+        assert.strictEqual(typeof response[0].id, "number");
+      }
+    );
   });
   this.timeout(1000);
 });

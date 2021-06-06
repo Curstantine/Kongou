@@ -1,2 +1,4 @@
 node_modules
 /Tests
+tsconfig.json
+.eslintrc.json

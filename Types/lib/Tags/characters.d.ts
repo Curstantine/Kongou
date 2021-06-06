@@ -21,7 +21,7 @@ declare class Characters {
      */
     url: string;
     /**
-     * Count of this character.
+     * Number of results for this character.
      * @type {Number}
      */
     count: number;

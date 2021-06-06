@@ -21,7 +21,7 @@ declare class Groups {
      */
     url: string;
     /**
-     * Count of this group.
+     * Number of results for this group.
      * @type {Number}
      */
     count: number;

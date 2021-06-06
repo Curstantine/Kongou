@@ -1,4 +1,4 @@
-const https = require("https");
+const https = require("node:https");
 const {
   KongouError,
   KongouClientError,
@@ -10,7 +10,7 @@ const {
  * ## Example
  *
  * ```js
- * APIrequest('/gallery/231193').then((data) => console.log(data));
+ * APIrequest('/api/gallery/231193').then((data) => console.log(data));
  * ```
  * @param {String} endpoint
  * @param {'GET'} [method='GET']
@@ -27,7 +27,6 @@ function APIRequest(endpoint, method = "GET") {
       path: endpoint,
       method: method,
     };
-
     const req = https.request(options, (res) => {
       let responseData = "";
       res.on("data", (data) => {

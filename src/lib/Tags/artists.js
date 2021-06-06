@@ -11,6 +11,13 @@ function capitalize(str) {
 
 class Artists {
   /**
+   * Array of artists, if available.
+   *
+   * ```js
+   * {
+   * id:
+   * }
+   * ```
    * @type {Artists[]}
    */
   constructor(artistObject) {
@@ -31,7 +38,7 @@ class Artists {
      */
     this.url = artistObject.url;
     /**
-     * Count of this artist.
+     * Number of results for this artist.
      * @type {Number}
      */
     this.count = artistObject.count;

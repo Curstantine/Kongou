@@ -31,7 +31,7 @@ class Parodies {
      */
     this.url = parodyObject.url;
     /**
-     * Count of this parody.
+     * Number of results for this parody.
      * @type {Number}
      */
     this.count = parodyObject.count;
