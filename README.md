@@ -4,8 +4,11 @@ A simple typescript nhentai wrapper.
 
 ## Usage
 
-V4 is using the next channel as it's still in pre-production.  
-So use ``npm i kongou@next``
+Current Docs are for v4.0.1
+
+```sh
+npm i kongou@latest
+```
 
 ```js
 import Kongou from 'kongou'

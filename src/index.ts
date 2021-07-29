@@ -86,11 +86,4 @@ export default class Kongou {
         popular: parser.parseResponseArray(popularData)
       }
     }
-
-  // /**
-  //  * Uses the random endpoint to randomly pick a book
-  //  */
-  // async getRandom (): Promise<Response> {
-
-  // }
 }
