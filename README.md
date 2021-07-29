@@ -66,13 +66,13 @@ new Kongou(defaultSite: string, staticSite: { thumbnails: string, images: string
 new Kongou().getBook(363636)
 ```
 
-Returns data identical to [Response](###Response) interface.
+Returns data identical to [Response](#Response) interface.
 
 ---
 
 ### `<Kongou>().getByQuery(object: queryParam): Promise<QueryResponse>`
 
-Param must be a [queryParam](###QueryParam) Type!
+Param must be a [queryParam](#QueryParam) Type!
 
 ```ts
 import { queryParam } from "Kongou/dist/Interfaces/parser"
@@ -82,7 +82,7 @@ const param: queryParam = { keywords: 'Ichigo Cake to Mont Blanc', lang: 'englis
 new Kongou().getByQuery(params)
 ```
 
-Returns data identical to [QueryResponse](###QueryResponse)
+Returns data identical to [QueryResponse](#QueryResponse)
 
 ---
 
@@ -95,7 +95,7 @@ For now filter only supports language.
 new Kongou().getHomePage({ langauge: 'english' })
 ```
 
-Returns data identical to [HomePageResponse](###HomePageResponse)
+Returns data identical to [HomePageResponse](#HomePageResponse)
 
 ---
 
