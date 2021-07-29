@@ -2,6 +2,35 @@
 
 A simple typescript nhentai wrapper.
 
+## Usage
+
+V4 is using the next channel as it's still in pre-production.  
+So use ``npm i kongou@next``
+
+```js
+import Kongou from 'kongou'
+
+new Kongou().<method>
+```
+
+Use default if you are using es5 syntax.
+
+```js
+const Kongou = require('kongou').default
+
+new Kongou().<method>
+```
+
+You can access interfaces by importing the interface file!
+
+Responses from Kongou = `dist/interfaces/parser.ts`  
+Responses from Server = `dist/interfaces/server.ts`
+
+```ts
+import Kongou from 'Kongou'
+import {} from 'Kongou/dist/Interfaces/'
+```
+
 ## Constructor
 
 Kongou has support for proxy sites that use the same api.
@@ -43,7 +72,7 @@ Returns data identical to [Response](###Response) interface.
 Param must be a [queryParam](###QueryParam) Type!
 
 ```ts
-import { queryParam } from "Kongou/Interfaces/parser"
+import { queryParam } from "Kongou/dist/Interfaces/parser"
 
 const param: queryParam = { keywords: 'Ichigo Cake to Mont Blanc', lang: 'english', page: 1, sort: 'popular' }
 
