@@ -86,7 +86,7 @@ Returns data identical to [QueryResponse](#QueryResponse)
 
 ---
 
-### `<Kongou>().getHomePage(object: filters): Promise<HomePageResponse>`
+### `<Kongou>().getHomePage(filters: { language: string }): Promise<HomePageResponse>`
 
 As the name implies returns the "latest" and "popular now" like results.  
 For now filter only supports language.
