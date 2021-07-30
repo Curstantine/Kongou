@@ -40,7 +40,7 @@ export interface ImageObject {
     thumbnail: string
 }
 
-interface TagObject {
+export interface TagObject {
     /**
      * nhentai id for this tag.
      */

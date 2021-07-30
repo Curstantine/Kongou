@@ -1,5 +1,5 @@
-import { Response, TagCategory, ImageObject, QueryResponse } from './Interfaces/parser'
-import { ServerResponse, PageExt, ServerQueryResponse } from './Interfaces/server'
+import { Response, TagCategory, ImageObject, QueryResponse, TagObject } from './Interfaces/parser'
+import { ServerResponse, PageExt, ServerQueryResponse, ServerTagObject } from './Interfaces/server'
 
 export default class Parser {
     defaultSite: string
@@ -27,19 +27,35 @@ export default class Parser {
     }
 
     static toString (str: string): string {
+      return str.split(' ').map((x) => x.charAt(0).toLocaleUpperCase() + x.substr(1)).join(' ')
+    }
+
+    static toURLString (str: string): string {
       return str.trim().split(' ').join('+').split('_').join('+')
+    }
+
+    toParseTags (array: ServerTagObject[], search: ServerTagObject['type']): TagObject[] {
+      return array.filter((tag) => tag.type === search).map((tag) => {
+        return {
+          id: tag.id,
+          name: Parser.toString(tag.name),
+          url: this.defaultSite + tag.url,
+          count: tag.count
+        }
+      })
     }
 
     parseResponse (data: ServerResponse): Response {
       const tags: TagCategory = {
-        artists: data.tags.filter((value) => value.type === 'artist'),
-        category: data.tags.filter((value) => value.type === 'category'),
-        characters: data.tags.filter((value) => value.type === 'character'),
-        groups: data.tags.filter((value) => value.type === 'groups'),
-        languages: data.tags.filter((value) => value.type === 'language'),
-        parodies: data.tags.filter((value) => value.type === 'parody'),
-        tags: data.tags.filter((value) => value.type === 'tag')
+        artists: this.toParseTags(data.tags, 'artist'),
+        category: this.toParseTags(data.tags, 'category'),
+        characters: this.toParseTags(data.tags, 'character'),
+        groups: this.toParseTags(data.tags, 'groups'),
+        languages: this.toParseTags(data.tags, 'language'),
+        parodies: this.toParseTags(data.tags, 'parody'),
+        tags: this.toParseTags(data.tags, 'tag')
       }
+
       const images: ImageObject = {
         pages: data.images.pages.map((page, i) => this.staticSite.images + `/${data.media_id}` + `/${i + 1}.` + `${Parser.toPageExt(page.t)}`),
         thumbnail: this.staticSite.thumbnails + `/${data.media_id}` + '/1t.' + `${Parser.toPageExt(data.images.thumbnail.t)}`,

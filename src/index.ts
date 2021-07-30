@@ -60,12 +60,12 @@ export default class Kongou {
     async getByQuery (object: queryParam | string): Promise<QueryResponse> {
       object = typeof object !== 'string'
         ? {
-            keywords: Parser.toString(object.keywords),
+            keywords: Parser.toURLString(object.keywords),
             page: object.page,
             sort: object.sort,
             lang: object.lang
           }
-        : { keywords: Parser.toString(object) }
+        : { keywords: Parser.toURLString(object) }
 
       if (object.keywords.length < 1) throw new InternalError('Keywords cannot be empty!')
 

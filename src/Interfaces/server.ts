@@ -8,7 +8,20 @@ export enum PageExt {
   p = 'png',
   g = 'gif',
 }
-
+export interface ServerTagObject {
+    id: number
+    type:
+      | 'artist'
+      | 'category'
+      | 'character'
+      | 'groups'
+      | 'language'
+      | 'parody'
+      | 'tag'
+    name: string
+    url: string
+    count: number
+}
 export interface ServerResponse {
     id: number | string
     media_id: string
@@ -36,20 +49,7 @@ export interface ServerResponse {
     }
     scanlator: string | undefined
     upload_date: number
-    tags: [{
-        id: number
-        type:
-          | 'artist'
-          | 'category'
-          | 'character'
-          | 'groups'
-          | 'language'
-          | 'parody'
-          | 'tag'
-        name: string
-        url: string
-        count: number
-    }]
+    tags: ServerTagObject[]
     num_pages: number
     num_favorites: number
 }
