@@ -8,7 +8,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "lint": "eslint -c ./.eslintrc.yml src/* --fix",
-    "compile": "tsc && eslint -c ./.eslintrc.yml dist/* --fix",
+    "compile": "tsc",
     "test": "tsc && node tests/kongou.test.js"
   },
   "repository": {

@@ -7,7 +7,11 @@ export default class Kongou {
     /**
      * Allows you to have your own proxy site for the wrapper to use!
      */
-    defaultSite: string
+    defaultSite: {
+      domain: string,
+      api: string
+    }
+
     /**
      * CDN site for that certain proxy site
      */
@@ -16,8 +20,17 @@ export default class Kongou {
         images: string
     }
 
-    constructor (defaultSite?: string, staticSite?: {thumbnails: string, images: string}) {
-      this.defaultSite = defaultSite ? defaultSite.replace(/(^\/)?(?=.*)(\/$)?/gim, '') : 'https://nhentai.net/api'
+    constructor (defaultSite?: { domain: string, api: string }, staticSite?: {thumbnails: string, images: string}) {
+      this.defaultSite =
+      defaultSite
+        ? {
+            domain: defaultSite.domain.replace(/(^\/)?(?=.*)(\/$)?/gim, ''),
+            api: defaultSite.domain.replace(/(^\/)?(?=.*)(\/$)?/gim, '')
+          }
+        : {
+            domain: 'https://nhentai.net',
+            api: 'https://nhentai.net/api'
+          }
       this.staticSite =
       staticSite
         ? {
@@ -37,8 +50,8 @@ export default class Kongou {
     async getBook (id: number | string): Promise<Response> {
       id = typeof id !== 'number' ? parseInt(id) : id
       if (isNaN(id)) throw new InternalError('Given ID is not a number!')
-      const data = await new Fetcher(this.defaultSite).get(id)
-      return new Parser(this.defaultSite, this.staticSite).parseResponse(data)
+      const data = await new Fetcher(this.defaultSite.api).get(id)
+      return new Parser(this.defaultSite.domain, this.staticSite).parseResponse(data)
     }
 
     /**
@@ -56,8 +69,8 @@ export default class Kongou {
 
       if (object.keywords.length < 1) throw new InternalError('Keywords cannot be empty!')
 
-      const data = await new Fetcher(this.defaultSite).getParam(object)
-      return new Parser(this.defaultSite, this.staticSite).parseQueryResponse(data)
+      const data = await new Fetcher(this.defaultSite.api).getParam(object)
+      return new Parser(this.defaultSite.domain, this.staticSite).parseQueryResponse(data)
     }
 
     /**
@@ -65,8 +78,8 @@ export default class Kongou {
      * @param filters Filters the results by language and such. [Obstructs the orignal results.]
      */
     async getHomePage (filters?: { language: 'english' | 'japanese' | 'chinese' }): Promise<HomePageResponse> {
-      const parser = new Parser(this.defaultSite, this.staticSite)
-      const fetcher = new Fetcher(this.defaultSite)
+      const fetcher = new Fetcher(this.defaultSite.api)
+      const parser = new Parser(this.defaultSite.domain, this.staticSite)
 
       const [latestObject, popularObject]: queryParam[] =
       [{
@@ -88,5 +101,17 @@ export default class Kongou {
         latest: parser.parseQueryResponse(latestData),
         popular: parser.parseQueryResponse(popularData)
       }
+    }
+
+    /**
+     * Uses the `/random` endpoint redirects and sends {@link Response} according to it.
+     */
+    async getRandomResponse (): Promise<Response> {
+      const request = await new Fetcher(this.defaultSite.domain).getFlavor('/random')
+      if (!request.redirected.bool) throw new InternalError('Something happened while running the request.')
+
+      const id = request.redirected.str.replace(/[^0-9]/g, '')
+      const data = await new Fetcher(this.defaultSite.api).get(parseInt(id))
+      return new Parser(this.defaultSite.domain, this.staticSite).parseResponse(data)
     }
 }

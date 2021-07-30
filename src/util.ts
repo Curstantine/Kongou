@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import { ServerError, InternalError } from './errors'
-import { ServerQueryResponse, ServerResponse } from './Interfaces/server'
+import { ServerQueryResponse, ServerResponse, FlavorResponse } from './Interfaces/server'
 import { queryParam } from './Interfaces/parser'
 
 export default class Fetcher {
@@ -37,6 +37,17 @@ export default class Fetcher {
       return JSON.parse(await response.text())
     } catch (error) {
       throw new InternalError('Something unexpected happened while parsing the response.')
+    }
+  }
+
+  async getFlavor (endpoint: string): Promise<FlavorResponse> {
+    const response = await fetch(this.url + endpoint, { method: this.method })
+    if (response.status > 400) throw new ServerError(response.statusText, response.status)
+
+    return {
+      body: await response.text(),
+      headers: response.headers,
+      redirected: { bool: response.redirected, str: response.url }
     }
   }
 }

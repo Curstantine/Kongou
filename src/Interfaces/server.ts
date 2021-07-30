@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 
+import { Headers } from 'node-fetch'
+
 export enum PageExt {
   j = 'jpg',
   p = 'png',
@@ -56,4 +58,10 @@ export interface ServerQueryResponse {
     result: ServerResponse[]
     num_pages: number
     per_page: number
+}
+
+export interface FlavorResponse {
+    body: string,
+    headers: Headers,
+    redirected: { bool: boolean, str: string }
 }
