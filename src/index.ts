@@ -54,7 +54,7 @@ export default class Kongou {
       if (object.keywords.length < 1) throw new InternalError('Keywords cannot be empty!')
 
       const data = await new Fetcher(this.defaultSite).getParam(object)
-      return new Parser(this.defaultSite, this.staticSite).parseResponseArray(data)
+      return new Parser(this.defaultSite, this.staticSite).parseQueryResponse(data)
     }
 
     /**
@@ -82,8 +82,8 @@ export default class Kongou {
       const popularData = await fetcher.getParam(popularObject)
 
       return {
-        latest: parser.parseResponseArray(latestData),
-        popular: parser.parseResponseArray(popularData)
+        latest: parser.parseQueryResponse(latestData),
+        popular: parser.parseQueryResponse(popularData)
       }
     }
 }

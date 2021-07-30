@@ -64,7 +64,7 @@ export default class Parser {
       }
     }
 
-    parseResponseArray (data: ServerQueryResponse): QueryResponse {
+    parseQueryResponse (data: ServerQueryResponse): QueryResponse {
       return {
         result: data.result.map((result) => this.parseResponse(result)),
         num_pages: data.num_pages,
