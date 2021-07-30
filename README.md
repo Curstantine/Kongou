@@ -4,7 +4,7 @@ A simple typescript nhentai wrapper.
 
 ## Usage
 
-Current Docs are for v4.0.1
+Current Docs are for v4.0.2
 
 ```sh
 npm i kongou@latest
@@ -66,13 +66,13 @@ new Kongou(defaultSite: string, staticSite: { thumbnails: string, images: string
 new Kongou().getBook(363636)
 ```
 
-Returns data identical to [Response](#Response) interface.
+Returns data identical to Response interface.
 
 ---
 
-### `<Kongou>().getByQuery(object: queryParam): Promise<QueryResponse>`
+### `<Kongou>().getByQuery(object: queryParam | string): Promise<QueryResponse>`
 
-Param must be a [queryParam](#QueryParam) Type!
+Param can be either a string (which will be used as queryParam.keywords) or a queryParam type.
 
 ```ts
 import { queryParam } from "Kongou/dist/Interfaces/parser"
@@ -80,9 +80,10 @@ import { queryParam } from "Kongou/dist/Interfaces/parser"
 const param: queryParam = { keywords: 'Ichigo Cake to Mont Blanc', lang: 'english', page: 1, sort: 'popular' }
 
 new Kongou().getByQuery(params)
+new Kongou().getByQuery('Ichigo Cake to Mont Blanc')
 ```
 
-Returns data identical to [QueryResponse](#QueryResponse)
+Returns data identical to QueryResponse interface.
 
 ---
 
@@ -95,7 +96,19 @@ For now filter only supports language.
 new Kongou().getHomePage({ langauge: 'english' })
 ```
 
-Returns data identical to [HomePageResponse](#HomePageResponse)
+Returns data identical to HomePageResponse interface.
+
+---
+
+### `<Kongou>().getRandomBook(): Response`
+
+Returns a random title using the `/random` endpoint!  
+
+```ts
+new Kongou().getRandomBook()
+```
+
+Returns data identical to Response interface.
 
 ---
 
@@ -114,274 +127,3 @@ Anyways, you guys made me eager to open up VSC and stonk my JS skill everyday!
 - [sinkaroid](https://www.github.com/sinkaroid)
 
 **Thank you!** <3
-
-## Interfaces
-
-**Already typed into the library. Go check that out!**
-
-### Response
-
-```ts
-{
-    /**
-     * id of this object.
-     * `eg: 363636`
-     */
-    id: number
-    /**
-     * media_id of this object.
-     * `eg: 1940023`
-     */
-    media_id: number
-    /**
-     * Site URL of this object.
-     * https://nhentai.net/g/363636
-     */
-    url: string
-    /**
-     * Titles of this object.
-     */
-    title: {
-        /**
-         * English title of this object.
-         * `[Azuma Tesshin] Ichigo Cake to Mont Blanc | Strawberry Cake & Mont Blanc - The cherry boy with Bitch sister. (COMIC Kairakuten 2018-05) [English] [Tamamo | GDS] [Digital]"`
-         */
-        english: string
-        /**
-         * Native title of this object.
-         * `[東鉄神] イチゴのケーキとモンブラン (COMIC 快楽天 2018年5月号) [英訳] [DL版]`
-         */
-        native: string
-        /**
-         * Pretty title of this object.
-         * `Ichigo Cake to Mont Blanc | Strawberry Cake & Mont Blanc - The cherry boy with Bitch sister.`
-         */
-        pretty: string
-    }
-    /**
-     * Images of this object.
-     */
-    images: {
-        /**
-         * Full size image urls.
-         */
-        pages: string[]
-        /**
-         * Cover sized image url.
-         */
-        cover: string
-        /**
-         * Thumbnail sized image url.
-         */
-        thumbnail: string
-    }
-    /**
-     * Scanlator of this object.
-     * Not available still. :-(
-     */
-    scanlator: string | undefined
-    /**
-     * Uploaded date of this object.
-     */
-    upload_date: Date
-    /**
-     * Tags of this object.
-     */
-    tags: {
-        artists: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-        category: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-        characters: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-        groups: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-        languages: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-        parodies: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-        tags: [{
-            /**
-             * nhentai id for this tag.
-             */
-            id: number
-            /**
-             * Name of this tag.
-             * `big boobs`
-             */
-            name: string
-            /**
-             * Site URL of this tag.
-             * `https://nhentai.net/tag/big-boobs`
-             */
-            url: string
-            /**
-             * Amount of titles in this tag.
-             */
-            count: number
-        }]
-    }
-    /**
-     * Number of pages this object has.
-     */
-    num_pages: number
-    /**
-     * Number of favorites of this object in nhentai
-     */
-    num_favorites: number
-}
-```
-
-### QueryResponse
-
-```ts
-{
-    /**
-     * Array of {@link Response}
-     * ``results = per_page * num_pages``
-     */
-    result: Response[]
-    /**
-     * Number of pages for this query.
-     */
-    num_pages: number
-    /**
-     * Number of {@link Response} per page.
-     */
-    per_page: number
-}
-```
-
-### HomePageResponse
-
-```ts
-{
-    /**
-     * Results identical to "Latest" on the HomePage of the website in {@link QueryResponse} format.
-     */
-    latest: QueryResponse
-    /**
-     * Results identical to "Popular" on the HomePage of the website in {@link QueryResponse} format.
-     */
-    popular: QueryResponse
-}
-```
-
-### QueryParam
-
-```ts
-{
-    keywords: string
-    page?: number,
-    sort?: 'popular' | 'popular-today' | 'popular-weekly'
-    lang?: 'english' | 'japanese' | 'chinese'
-}
-```

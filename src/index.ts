@@ -106,7 +106,7 @@ export default class Kongou {
     /**
      * Uses the `/random` endpoint redirects and sends {@link Response} according to it.
      */
-    async getRandomResponse (): Promise<Response> {
+    async getRandomBook (): Promise<Response> {
       const request = await new Fetcher(this.defaultSite.domain).getFlavor('/random')
       if (!request.redirected.bool) throw new InternalError('Something happened while running the request.')
 

@@ -13,6 +13,6 @@ kongou.getHomePage({ language: 'english' }).then((data) =>
   console.log('getHomePage: ', data.latest.result[0].id, data.popular.result[0].id)
 ).catch((x) => console.error(x))
 
-kongou.getRandomResponse().then((data) =>
-  console.log('getRandomResponse: ', data.id)
+kongou.getRandomBook().then((data) =>
+  console.log('getRandomBook: ', data.id)
 ).catch((x) => console.error(x))
