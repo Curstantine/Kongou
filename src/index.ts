@@ -44,13 +44,16 @@ export default class Kongou {
     /**
      * Retrieves data from `api/galleries/search` and parses them to an easily useable format.
      */
-    async getByQuery (object: queryParam): Promise<QueryResponse> {
-      object = {
-        keywords: Parser.toString(object.keywords),
-        page: object.page,
-        sort: object.sort,
-        lang: object.lang
-      }
+    async getByQuery (object: queryParam | string): Promise<QueryResponse> {
+      object = typeof object !== 'string'
+        ? {
+            keywords: Parser.toString(object.keywords),
+            page: object.page,
+            sort: object.sort,
+            lang: object.lang
+          }
+        : { keywords: Parser.toString(object) }
+
       if (object.keywords.length < 1) throw new InternalError('Keywords cannot be empty!')
 
       const data = await new Fetcher(this.defaultSite).getParam(object)
