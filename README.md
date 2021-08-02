@@ -4,7 +4,7 @@ A simple typescript nhentai wrapper.
 
 ## Usage
 
-Current Docs are for v4.0.2
+Current Docs are for v4.0.3
 
 ```sh
 npm i kongou@latest
