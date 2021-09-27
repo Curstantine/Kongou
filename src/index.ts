@@ -30,19 +30,23 @@ export class Kongou {
   }
 
   public async getByQuery(query: string): Promise<KongouBookQuery> {
-    const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
-    const data: ServerBookQuery = await response.json();
+    try {
+      const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
+      const data: ServerBookQuery = await response.json();
 
-    const resultMap = new Map<Book['id'], Book>();
+      const resultMap = new Map<Book['id'], Book>();
 
-    for (const result of data.result) {
-      resultMap.set(result.id, new Book(result));
+      for (const result of data.result) {
+        resultMap.set(result.id, new Book(result));
+      }
+
+      return {
+        result: resultMap,
+        per_page: data.per_page,
+        num_pages: data.num_pages,
+      };
+    } catch (error: any) {
+      throw new Error(error);
     }
-
-    return {
-      result: resultMap,
-      per_page: data.per_page,
-      num_pages: data.num_pages,
-    };
   }
 }
