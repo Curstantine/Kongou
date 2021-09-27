@@ -1,18 +1,10 @@
-const Kongou = require('../dist').default
-const kongou = new Kongou()
+const { Kongou } = require('../build/index');
 
-kongou.getBook(363636).then((data) =>
-  console.log('getBook: ', data.id)
-).catch((x) => console.error(x))
+(async () => {
+  console.time('Starts Kongou');
 
-kongou.getByQuery({ keywords: 'Ichigo Cake to Mont Blanc' }).then((data) =>
-  console.log('getByQuery: ', data.result[0].id)
-).catch((x) => console.error(x))
-
-kongou.getHomePage({ language: 'english' }).then((data) =>
-  console.log('getHomePage: ', data.latest.result[0].id, data.popular.result[0].id)
-).catch((x) => console.error(x))
-
-kongou.getRandomBook().then((data) =>
-  console.log('getRandomBook: ', data.id)
-).catch((x) => console.error(x))
+  const kon = new Kongou('');
+  const data = await kon.getByQuery('english kasdujabndsasdadadaidh');
+  console.log(data);
+  console.timeEnd('Starts Kongou');
+})();
