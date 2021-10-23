@@ -1,9 +1,9 @@
-import { Images } from './images';
-import { TitleObject, TagObject, ImageCategoryObject } from './Interfaces/responses/common';
-import { ServerBook } from './Interfaces/responses/response';
-import { Tag } from './tag';
+import Tag from '../utils/tag';
+import Images from '../utils/images';
+import { TitleObject, TagObject, ImageCategoryObject } from '../interfaces/common';
+import { ServerBook } from '../interfaces/response';
 
-export class Book {
+export default class Book {
   id: number;
   media_id: string;
   title: TitleObject;

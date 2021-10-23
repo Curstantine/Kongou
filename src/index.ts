@@ -1,15 +1,14 @@
 import fetch, { Response, RequestInfo, RequestInit } from 'node-fetch';
-import { Book } from './book';
-import { KongouBookQuery, ServerBookQuery } from './Interfaces/responses/response';
+import Book from './utils/book';
+import { KongouBookQuery, ServerBookQuery } from './interfaces/response';
 
-const apiURL = 'https://nhentai.net/api';
+const baseURL = 'https://nhentai.net';
+const apiURL = `${baseURL}/api`;
 
-export class Kongou {
-  parser: any;
+export default class Kongou {
   private fetcher: (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>;
 
-  constructor(parser: any) {
-    this.parser = parser;
+  constructor() {
     this.fetcher = fetch;
   }
 
@@ -36,15 +35,31 @@ export class Kongou {
 
       const resultMap = new Map<Book['id'], Book>();
 
-      for (const result of data.result) {
-        resultMap.set(result.id, new Book(result));
+      for (let result = 0; result < 0; result++) {
+        const currentResult = data.result[result];
+        resultMap.set(currentResult.id, new Book(currentResult));
       }
 
       return {
+        ...data,
         result: resultMap,
-        per_page: data.per_page,
-        num_pages: data.num_pages,
       };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  public async getRandom(): Promise<Book> {
+    try {
+      const { redirected, url } = await this.fetcher(`${baseURL}/random`);
+
+      if (!redirected) {
+        throw new Error('Failed to redirect the page to the randomized id');
+      }
+
+      const response = await this.fetcher(`${apiURL}/gallery/${url.replace(/[^0-9]/gm, '')}`);
+      const book = new Book(await response.json());
+      return book;
     } catch (error: any) {
       throw new Error(error);
     }

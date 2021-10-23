@@ -1,4 +1,4 @@
-import { Book } from '../../book';
+import Book from '../utils/book';
 import { ImageCategoryObject, TagObject, TitleObject } from './common';
 
 export interface ServerBook {

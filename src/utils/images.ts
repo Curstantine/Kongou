@@ -1,5 +1,5 @@
-import { ImageCategoryObject, ImageObject } from './Interfaces/responses/common';
-import { ServerBook } from './Interfaces/responses/response';
+import { ImageCategoryObject, ImageObject } from '../interfaces/common';
+import { ServerBook } from '../interfaces/response';
 
 const fullURL = 'https://i.nhentai.net/galleries';
 const thumbURL = 'https://t.nhentai.net/galleries';
@@ -9,7 +9,7 @@ const ext = {
   g: 'gif',
 };
 
-export class Images {
+export default class Images {
   private media_id: ServerBook['media_id'];
   private pages: ImageObject[];
   private cover: ImageObject;
@@ -28,7 +28,7 @@ export class Images {
 
   public getThumbnails() {
     const thumbnails = new Array<string>(this.pages.length);
-    thumbnails.map((_, i) => `${thumbURL}/${this.media_id}/${i + 1}t.${ext[this.thumbnail.t]}`);
+    thumbnails.flatMap((_, i) => `${thumbURL}/${this.media_id}/${i + 1}t.${ext[this.thumbnail.t]}`);
     return thumbnails;
   }
 

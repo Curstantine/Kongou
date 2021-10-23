@@ -1,6 +1,6 @@
-import { TagObject } from './Interfaces/responses/common';
+import { TagObject } from '../interfaces/common';
 
-export class Tag {
+export default class Tag {
   private id: number;
   private name: string;
   private count: number;
