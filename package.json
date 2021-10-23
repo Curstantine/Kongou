@@ -7,7 +7,6 @@
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "scripts": {
-    "prepublish": "tsc",
     "test:mocha": "mocha ./build/test/mocha.test.js",
     "test:dry": "node ./build/test/kongou.test.js"
   },
