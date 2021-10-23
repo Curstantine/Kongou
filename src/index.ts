@@ -1,117 +1,67 @@
-import Parser from './parser'
-import Fetcher from './util'
-import { InternalError } from './errors'
-import { Response, QueryResponse, HomePageResponse, queryParam } from './Interfaces/parser'
+import fetch, { Response, RequestInfo, RequestInit } from 'node-fetch';
+import Book from './utils/book';
+import { BookQuery, ServerBookQuery } from './interfaces/response';
+
+const baseURL = 'https://nhentai.net';
+const apiURL = `${baseURL}/api`;
 
 export default class Kongou {
-    /**
-     * Allows you to have your own proxy site for the wrapper to use!
-     */
-    defaultSite: {
-      domain: string,
-      api: string
+  private fetcher: (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>;
+
+  constructor() {
+    this.fetcher = fetch;
+  }
+
+  public async getBook(id: number): Promise<Book> {
+    const typeofid = typeof id;
+
+    if (typeofid !== 'number') {
+      throw new Error(`Expected typeof id to be number but got: ${typeofid}`);
     }
 
-    /**
-     * CDN site for that certain proxy site
-     */
-    staticSite: {
-        thumbnails: string,
-        images: string
+    try {
+      const response = await this.fetcher(`${apiURL}/gallery/${id}`);
+      const book = new Book(await response.json());
+      return book;
+    } catch (error: any) {
+      throw new Error(error);
     }
+  }
 
-    constructor (defaultSite?: { domain: string, api: string }, staticSite?: {thumbnails: string, images: string}) {
-      this.defaultSite =
-      defaultSite
-        ? {
-            domain: defaultSite.domain.replace(/(^\/)?(?=.*)(\/$)?/gim, ''),
-            api: defaultSite.domain.replace(/(^\/)?(?=.*)(\/$)?/gim, '')
-          }
-        : {
-            domain: 'https://nhentai.net',
-            api: 'https://nhentai.net/api'
-          }
-      this.staticSite =
-      staticSite
-        ? {
-            thumbnails: staticSite.thumbnails.replace(/(^\/)?(?=.*)(\/$)?/gim, ''),
-            images: staticSite.images.replace(/(^\/)?(?=.*)(\/$)?/gim, '')
-          }
-        : {
-            thumbnails: 'https://t.nhentai.net/galleries',
-            images: 'https://i.nhentai.net/galleries'
-          }
-    }
+  public async getByQuery(query: string): Promise<BookQuery> {
+    try {
+      const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
+      const data: ServerBookQuery = await response.json();
 
-    /**
-     * Retrieves data from `api/gallery/id` and parses them to an easily useable format.
-     * @param id nhentai gallery id.
-     */
-    async getBook (id: number | string): Promise<Response> {
-      id = typeof id !== 'number' ? parseInt(id) : id
-      if (isNaN(id)) throw new InternalError('Given ID is not a number!')
-      const data = await new Fetcher(this.defaultSite.api).get(id)
-      return new Parser(this.defaultSite.domain, this.staticSite).parseResponse(data)
-    }
+      const resultMap = new Map<Book['id'], Book>();
 
-    /**
-     * Retrieves data from `api/galleries/search` and parses them to an easily useable format.
-     */
-    async getByQuery (object: queryParam | string): Promise<QueryResponse> {
-      object = typeof object !== 'string'
-        ? {
-            keywords: Parser.toURLString(object.keywords),
-            page: object.page,
-            sort: object.sort,
-            lang: object.lang
-          }
-        : { keywords: Parser.toURLString(object) }
-
-      if (object.keywords.length < 1) throw new InternalError('Keywords cannot be empty!')
-
-      const data = await new Fetcher(this.defaultSite.api).getParam(object)
-      return new Parser(this.defaultSite.domain, this.staticSite).parseQueryResponse(data)
-    }
-
-    /**
-     * Emulates titles available in HomePage through the API.
-     * @param filters Filters the results by language and such. [Obstructs the orignal results.]
-     */
-    async getHomePage (filters?: { language: 'english' | 'japanese' | 'chinese' }): Promise<HomePageResponse> {
-      const fetcher = new Fetcher(this.defaultSite.api)
-      const parser = new Parser(this.defaultSite.domain, this.staticSite)
-
-      const [latestObject, popularObject]: queryParam[] =
-      [{
-        keywords: '',
-        page: 1,
-        lang: filters?.language
-      },
-      {
-        keywords: '',
-        page: 1,
-        lang: filters?.language,
-        sort: 'popular-today'
-      }]
-
-      const latestData = await fetcher.getParam(latestObject)
-      const popularData = await fetcher.getParam(popularObject)
+      for (let result = 0; result < 0; result++) {
+        const currentResult = data.result[result];
+        resultMap.set(currentResult.id, new Book(currentResult));
+      }
 
       return {
-        latest: parser.parseQueryResponse(latestData),
-        popular: parser.parseQueryResponse(popularData)
+        ...data,
+        result: resultMap,
+      };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  public async getRandom(): Promise<Book> {
+    try {
+      const { redirected, url } = await this.fetcher(`${baseURL}/random`);
+
+      if (!redirected) {
+        throw new Error('Failed to redirect the page to the randomized id');
       }
-    }
 
-    /**
-     * Uses the `/random` endpoint redirects and sends {@link Response} according to it.
-     */
-    async getRandomBook (): Promise<Response> {
-      const request = await new Fetcher(this.defaultSite.domain).getFlavor('/random')
-      if (!request.redirected.bool) throw new InternalError('Something happened while running the request.')
-
-      const id = request.redirected.str.replace(/[^0-9]/g, '')
-      const data = await new Fetcher(this.defaultSite.api).get(parseInt(id))
-      return new Parser(this.defaultSite.domain, this.staticSite).parseResponse(data)
+      const response = await this.fetcher(`${apiURL}/gallery/${url.replace(/[^0-9]/gm, '')}`);
+      const book = new Book(await response.json());
+      return book;
+    } catch (error: any) {
+      throw new Error(error);
     }
+  }
 }
