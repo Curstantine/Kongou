@@ -1,13 +1,13 @@
 import Tag from '../utils/tag';
 import Images from '../utils/images';
-import { TitleObject, TagObject, ImageCategoryObject } from '../interfaces/common';
+import { Title, TagObject, ImageTypes } from '../interfaces/common';
 import { ServerBook } from '../interfaces/response';
 
 export default class Book {
   id: number;
   media_id: string;
-  title: TitleObject;
-  images: ImageCategoryObject;
+  title: Title;
+  images: ImageTypes;
   scanlator: string | undefined;
   upload_date: number;
   tags: TagObject[];

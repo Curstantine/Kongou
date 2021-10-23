@@ -1,11 +1,11 @@
 import Book from '../utils/book';
-import { ImageCategoryObject, TagObject, TitleObject } from './common';
+import { ImageTypes, TagObject, Title } from './common';
 
 export interface ServerBook {
   id: number;
   media_id: string;
-  title: TitleObject;
-  images: ImageCategoryObject;
+  title: Title;
+  images: ImageTypes;
   scanlator: string | undefined;
   upload_date: number;
   tags: TagObject[];
@@ -19,7 +19,7 @@ export interface ServerBookQuery {
   per_page: number;
 }
 
-export interface KongouBookQuery {
+export interface BookQuery {
   result: Map<Book['id'], Book>;
   num_pages: number;
   per_page: number;

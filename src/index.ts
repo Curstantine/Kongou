@@ -1,6 +1,6 @@
 import fetch, { Response, RequestInfo, RequestInit } from 'node-fetch';
 import Book from './utils/book';
-import { KongouBookQuery, ServerBookQuery } from './interfaces/response';
+import { BookQuery, ServerBookQuery } from './interfaces/response';
 
 const baseURL = 'https://nhentai.net';
 const apiURL = `${baseURL}/api`;
@@ -28,7 +28,7 @@ export default class Kongou {
     }
   }
 
-  public async getByQuery(query: string): Promise<KongouBookQuery> {
+  public async getByQuery(query: string): Promise<BookQuery> {
     try {
       const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
       const data: ServerBookQuery = await response.json();

@@ -2,7 +2,7 @@ import Kongou from '../src/index';
 import Book from '../src/utils/book';
 import chai from 'chai';
 
-import { KongouBookQuery } from '../src/interfaces/response';
+import { BookQuery } from '../src/interfaces/response';
 
 const expect = chai.expect;
 
@@ -96,7 +96,7 @@ describe('Kongou', () => {
   });
 
   describe('getByQuery()', () => {
-    let query: KongouBookQuery;
+    let query: BookQuery;
 
     before(async () => {
       query = await new Kongou().getByQuery('mount blanc');

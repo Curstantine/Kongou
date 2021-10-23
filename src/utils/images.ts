@@ -1,4 +1,4 @@
-import { ImageCategoryObject, ImageObject } from '../interfaces/common';
+import { ImageTypes, ImageObject } from '../interfaces/common';
 import { ServerBook } from '../interfaces/response';
 
 const fullURL = 'https://i.nhentai.net/galleries';
@@ -15,7 +15,7 @@ export default class Images {
   private cover: ImageObject;
   private thumbnail: ImageObject;
 
-  constructor(media_id: ServerBook['media_id'], images: ImageCategoryObject) {
+  constructor(media_id: ServerBook['media_id'], images: ImageTypes) {
     this.media_id = media_id;
     this.cover = images.cover;
     this.pages = images.pages;

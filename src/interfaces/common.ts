@@ -1,4 +1,4 @@
-export interface TitleObject {
+export interface Title {
   english: string;
   japanese: string;
   pretty: string;
@@ -10,7 +10,7 @@ export interface ImageObject {
   h: number;
 }
 
-export interface ImageCategoryObject {
+export interface ImageTypes {
   pages: ImageObject[];
   cover: ImageObject;
   thumbnail: ImageObject;
