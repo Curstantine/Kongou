@@ -1,6 +1,6 @@
 {
   "name": "kongou",
-  "version": "4.1.0-beta",
+  "version": "4.1.0",
   "description": "A simple typescript nhentai wrapper.",
   "author": "Curstantine",
   "license": "MIT",
