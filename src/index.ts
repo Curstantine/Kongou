@@ -1,28 +1,25 @@
-import fetch, { Response, RequestInfo, RequestInit } from 'node-fetch';
+import fetch, { RequestInfo, RequestInit, Response } from 'node-fetch';
 import Book from './utils/book';
-import { BookQuery, ServerBookQuery } from './interfaces/response';
+import { BookQuery, ServerBook, ServerBookQuery } from './interfaces/response';
 
 const baseURL = 'https://nhentai.net';
 const apiURL = `${baseURL}/api`;
 
 export default class Kongou {
-  private fetcher: (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>;
+  private readonly fetcher: typeof fetch;
 
-  constructor() {
-    this.fetcher = fetch;
+  constructor(fetcher?: typeof fetch) {
+    this.fetcher = fetcher ?? fetch;
   }
 
-  public async getBook(id: number): Promise<Book> {
-    const typeofid = typeof id;
-
-    if (typeofid !== 'number') {
-      throw new Error(`Expected typeof id to be number but got: ${typeofid}`);
+  public async getBook(id: number | string): Promise<Book> {
+    if (typeof id === "string" && id.match(/\D/) != null) {
+      throw new Error(`Given string contains non-numeric characters!`);
     }
 
     try {
       const response = await this.fetcher(`${apiURL}/gallery/${id}`);
-      const book = new Book(await response.json());
-      return book;
+      return new Book(await response.json() as ServerBook);
     } catch (error: any) {
       throw new Error(error);
     }
@@ -31,7 +28,7 @@ export default class Kongou {
   public async getByQuery(query: string): Promise<BookQuery> {
     try {
       const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
-      const data: ServerBookQuery = await response.json();
+      const data = await response.json() as ServerBookQuery;
 
       const resultMap = new Map<Book['id'], Book>();
 
@@ -51,15 +48,10 @@ export default class Kongou {
 
   public async getRandom(): Promise<Book> {
     try {
-      const { redirected, url } = await this.fetcher(`${baseURL}/random`);
+      const { url } = await this.fetcher(`${baseURL}/random`);
+      const id = url.replace(/[^0-9]/gm, '');
 
-      if (!redirected) {
-        throw new Error('Failed to redirect the page to the randomized id');
-      }
-
-      const response = await this.fetcher(`${apiURL}/gallery/${url.replace(/[^0-9]/gm, '')}`);
-      const book = new Book(await response.json());
-      return book;
+      return this.getBook(id);
     } catch (error: any) {
       throw new Error(error);
     }
