@@ -1,6 +1,6 @@
 {
   "name": "kongou",
-  "version": "5.0.0-dev",
+  "version": "4.1.0-dev",
   "description": "Typescript client library for nhentai.",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
