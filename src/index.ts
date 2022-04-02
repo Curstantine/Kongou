@@ -54,10 +54,9 @@ export default class Kongou {
 
       const resultMap = new Map<Book['id'], Book>();
 
-      for (let result = 0; result < 0; result++) {
-        const currentResult = data.result[result];
-        resultMap.set(currentResult.id, new Book(this.urls, currentResult));
-      }
+      data.result.forEach((result) => {
+        resultMap.set(result.id, new Book(this.urls, result));
+      });
 
       return {
         ...data,

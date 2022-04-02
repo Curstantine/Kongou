@@ -7,7 +7,7 @@ import { readFile, writeFile } from 'fs/promises';
 
 import Book from '../src/utils/book';
 import Images from '../src/utils/images';
-import { ServerBook } from '../src/interfaces/response';
+import { ServerBook, ServerBookQuery } from '../src/interfaces/response';
 
 export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: ServerBook) => {
   testLocalParsing('Book metadata.', () => {
@@ -65,21 +65,31 @@ export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: S
   testLocalParsing.run();
 };
 
-export const handleResourceCache = async () => {
-  type CacheFile = {
-    book: ServerBook;
-  };
+type CacheFile = {
+  book: ServerBook;
+};
 
+export const handleResourceCache = async (id: number) => {
   if (existsSync('./cache.json')) {
     const cacheBuffer = await readFile('./cache.json');
     return JSON.parse(cacheBuffer.toString()) as CacheFile;
   }
 
-  const response = await fetch('https://nhentai.net/api/gallery/4412');
-  const book = (await response.json()) as ServerBook;
+  const book = await etch(id, "book") as ServerBook;
 
   const cacheFile: CacheFile = { book };
   await writeFile('./cache.json', JSON.stringify(cacheFile));
 
   return cacheFile;
+};
+
+export const etch = async (
+  qry: string | number,
+  type: 'book' | 'books',
+): Promise<ServerBook | ServerBookQuery> => {
+  const u = 'https://nhentai.net/api/';
+  const prep = type === 'books' ? 'galleries/search?query=' + qry : 'gallery/' + qry;
+
+  const response = await fetch(u + prep);
+  return (await response.json()) as ServerBook | ServerBookQuery;
 };
