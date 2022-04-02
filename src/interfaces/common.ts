@@ -1,3 +1,12 @@
+export type UrlObject = {
+  base: string;
+  api: string;
+  images: {
+    full: string;
+    thumb: string;
+  }
+}
+
 export interface Title {
   english: string;
   japanese: string;
@@ -16,8 +25,19 @@ export interface ImageTypes {
   thumbnail: ImageObject;
 }
 
+export enum TagType {
+  Artist = 'artist',
+  Category = 'category',
+  Character = 'character',
+  Group = 'group',
+  Language = 'language',
+  Parody = 'parody',
+  Tag = 'tag',
+}
+
 export interface TagObject {
   id: number;
+  'type': TagType;
   name: string;
   count: number;
   /**

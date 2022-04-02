@@ -1,25 +1,45 @@
-import fetch, { RequestInfo, RequestInit, Response } from 'node-fetch';
+import fetch from 'node-fetch';
 import Book from './utils/book';
 import { BookQuery, ServerBook, ServerBookQuery } from './interfaces/response';
-
-const baseURL = 'https://nhentai.net';
-const apiURL = `${baseURL}/api`;
+import { UrlObject } from './interfaces/common';
 
 export default class Kongou {
+  public readonly urls: UrlObject;
   private readonly fetcher: typeof fetch;
 
-  constructor(fetcher?: typeof fetch) {
+  constructor(fetcher?: typeof fetch, urls?: UrlObject) {
     this.fetcher = fetcher ?? fetch;
+    this.urls = urls ?? Kongou.defaultUrls();
+  }
+
+  public static defaultUrls() {
+    return {
+      base: 'https://nhentai.net',
+      api: 'https://nhentai.net/api',
+      images: {
+        full: 'https://i.nhentai.net/galleries',
+        thumb: 'https://t.nhentai.net/galleries',
+      },
+    };
   }
 
   public async getBook(id: number | string): Promise<Book> {
-    if (typeof id === "string" && id.match(/\D/) != null) {
+    if (typeof id === 'string' && id.match(/\D/) != null) {
       throw new Error(`Given string contains non-numeric characters!`);
     }
 
+    const throwable = (error: Error) => {
+      throw error;
+    };
+
     try {
-      const response = await this.fetcher(`${apiURL}/gallery/${id}`);
-      return new Book(await response.json() as ServerBook);
+      const response = await this.fetcher(`${this.urls.api}/gallery/${id}`);
+
+      if (response.status !== 200) {
+        throwable(new Error(`Request failed with '${response.statusText} [${response.status}]'!`));
+      }
+
+      return new Book(this.urls, (await response.json()) as ServerBook);
     } catch (error: any) {
       throw new Error(error);
     }
@@ -27,14 +47,16 @@ export default class Kongou {
 
   public async getByQuery(query: string): Promise<BookQuery> {
     try {
-      const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
-      const data = await response.json() as ServerBookQuery;
+      const response = await this.fetcher(
+        `${this.urls.api}/galleries/search?query=${encodeURI(query)}`,
+      );
+      const data = (await response.json()) as ServerBookQuery;
 
       const resultMap = new Map<Book['id'], Book>();
 
       for (let result = 0; result < 0; result++) {
         const currentResult = data.result[result];
-        resultMap.set(currentResult.id, new Book(currentResult));
+        resultMap.set(currentResult.id, new Book(this.urls, currentResult));
       }
 
       return {
@@ -48,7 +70,7 @@ export default class Kongou {
 
   public async getRandom(): Promise<Book> {
     try {
-      const { url } = await this.fetcher(`${baseURL}/random`);
+      const { url } = await this.fetcher(`${this.urls.base}/random`);
       const id = url.replace(/[^0-9]/gm, '');
 
       return this.getBook(id);

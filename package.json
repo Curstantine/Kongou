@@ -1,35 +1,38 @@
 {
+  "type": "module",
   "name": "kongou",
-  "version": "4.1.0-dev",
+  "version": "4.2.0",
   "description": "Typescript client library for nhentai.",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "author": "Curstantine <resistlyfe@gmail.com>",
+  "license": "MIT",
   "contributors": [
     "sinkaroid  <https://github.com/sinkaroid>"
   ],
-  "license": "MIT",
+  "scripts": {
+    "test": "loadr -- uvu tests"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Curstantine/kongou.git"
   },
-  "keywords": [
-    "typescript",
-    "nhentai",
-    "kongou",
-    "hentai",
-    "library",
-    "wrapper"
-  ],
   "bugs": {
     "url": "https://github.com/Curstantine/Kongou/issues"
   },
   "homepage": "https://github.com/Curstantine/Kongou#readme",
+  "keywords": [
+    "typescript",
+    "nhentai",
+    "kongou"
+  ],
   "devDependencies": {
     "@types/node": "^17.0.23",
+    "loadr": "^0.1.1",
     "prettier": "^2.6.1",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "tsm": "^2.2.1",
+    "typescript": "^4.6.3",
+    "uvu": "^0.5.3"
   },
   "dependencies": {
     "node-fetch": "^3.2.3"
