@@ -4,8 +4,8 @@ export type UrlObject = {
   images: {
     full: string;
     thumb: string;
-  }
-}
+  };
+};
 
 export interface Title {
   english: string;
@@ -35,14 +35,21 @@ export enum TagType {
   Tag = 'tag',
 }
 
+export enum LanguageType {
+  English = 'english',
+  Japanese = 'japanese',
+  Chinese = 'Chinese',
+}
+
 export interface TagObject {
   id: number;
-  'type': TagType;
-  name: string;
+  type: TagType;
+  name: string | LanguageType;
   count: number;
   /**
-   * Relative URL to the tag from the site. \
-   * Use {@link TagObject siteURL} to make your life easier.
+   * Relative URL to the tag from the site.
+   *
+   * Use {@link Tag siteURL} to make your life easier.
    */
   url: string;
 }

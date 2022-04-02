@@ -8,6 +8,7 @@ import { readFile, writeFile } from 'fs/promises';
 import Book from '../src/utils/book';
 import Images from '../src/utils/images';
 import { ServerBook, ServerBookQuery } from '../src/interfaces/response';
+import { TagType } from '../src/interfaces/common';
 
 export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: ServerBook) => {
   testLocalParsing('Book metadata.', () => {
@@ -20,15 +21,11 @@ export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: S
   });
 
   testLocalParsing('Metadata of tags.', () => {
-    assert.equal(book.tags.length, expectedBook.tags.length);
-    book.tags.forEach((tag, i) => {
-      assert.equal(tag.id, expectedBook.tags[i].id);
-      assert.equal(tag.name, expectedBook.tags[i].name);
-      assert.equal(tag.type, expectedBook.tags[i].type);
-      assert.equal(tag.url, expectedBook.tags[i].url);
-      assert.equal(tag.count, expectedBook.tags[i].count);
-      assert.equal(tag.getSiteURL(), `https://nhentai.net${expectedBook.tags[i].url}`);
-    });
+    for (const name of Object.values(TagType)) {
+      book.tags.getTagsWithType(name).forEach((tag) => {
+        assert.equal(tag.type, name);
+      });
+    }
   });
 
   testLocalParsing('Image data', () => {
@@ -75,7 +72,7 @@ export const handleResourceCache = async (id: number) => {
     return JSON.parse(cacheBuffer.toString()) as CacheFile;
   }
 
-  const book = await etch(id, "book") as ServerBook;
+  const book = (await etch(id, 'book')) as ServerBook;
 
   const cacheFile: CacheFile = { book };
   await writeFile('./cache.json', JSON.stringify(cacheFile));

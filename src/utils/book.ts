@@ -1,6 +1,6 @@
-import Tag from '../utils/tag';
+import Tags from './tags';
 import Images from '../utils/images';
-import { ImageTypes, TagObject, Title, UrlObject } from '../interfaces/common';
+import { Title, UrlObject } from '../interfaces/common';
 import { ServerBook } from '../interfaces/response';
 
 export default class Book {
@@ -10,7 +10,7 @@ export default class Book {
   public readonly images: Images;
   public readonly scanlator: string | undefined;
   public readonly upload_date: number;
-  public readonly tags: Tag[];
+  public readonly tags: Tags;
   public readonly num_pages: number;
   public readonly num_favorites: number;
   private readonly urls: UrlObject;
@@ -26,8 +26,8 @@ export default class Book {
     this.num_pages = book.num_pages;
     this.num_favorites = book.num_favorites;
 
-    this.tags = book.tags.map((tag) => new Tag(this.urls.base, tag));
-    this.images = new Images(this.urls.images, this.media_id,  book.images);
+    this.tags = new Tags(this.urls.base, book.tags);
+    this.images = new Images(this.urls.images, this.media_id, book.images);
   }
 
   public getSiteURL() {
