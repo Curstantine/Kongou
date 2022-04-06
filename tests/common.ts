@@ -7,7 +7,7 @@ import { readFile, writeFile } from 'fs/promises';
 
 import Book from '../src/structures/book';
 import Images from '../src/structures/images';
-import { QueryBuilder } from '../src/utils';
+import { QueryBuilder, SortType } from '../src/utils/index';
 
 import { ServerBook, ServerBookQuery } from '../src/types';
 import { LanguageType, TagType } from '../src/enums';
@@ -46,11 +46,18 @@ export const fragQueryBuilder = (testQueryBuilder: Test, queryBuilder: QueryBuil
     assert.equal(queryBuilder.build(), 'language:english+language:japanese');
   });
 
-  testQueryBuilder('Mixed tags', () => {
+  testQueryBuilder('Setting sort type', () => {
+    queryBuilder.setSort(SortType.PopularAllTime);
+
+    assert.equal(queryBuilder.build(), 'sort=popular');
+  });
+
+  testQueryBuilder('Mixed tags and sorts', () => {
     queryBuilder.addTag(TagType.Tag, 'tag1');
     queryBuilder.addLanguage(LanguageType.English);
+    queryBuilder.setSort(SortType.PopularAllTime);
 
-    const q = ['tag:tag1+language:english', 'language:english+tag:tag1'];
+    const q = ['tag:tag1+language:english&sort=popular', 'language:english+tag:tag1&sort=popular'];
     const qbr = queryBuilder.build();
 
     if (!q.includes(qbr)) {

@@ -15,6 +15,7 @@ export default class QueryBuilder {
 
   public flush(): this {
     this.tags.clear();
+    this.sort = SortType.Recent;
     this.languages = [];
 
     return this;
@@ -44,7 +45,10 @@ export default class QueryBuilder {
   public build() {
     const strings = [...this.constructLanguages(), ...this.constructTags()];
 
-    return [strings.join('+'), this.sort !== SortType.Recent ? `sort=${this.sort}` : null]
+    return [
+      strings.length !== 0 ? strings.join('+') : null,
+      this.sort !== SortType.Recent ? `sort=${this.sort}` : null,
+    ]
       .filter((s) => s != null)
       .join('&');
   }
