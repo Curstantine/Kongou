@@ -1,63 +1,42 @@
 # Kongou
 
-A simple typescript nhentai wrapper.
+A simple ESM typescript nhentai wrapper.
 
 ## Usage
 
-Current Docs are for v4.1.x
+Current Docs are for v4.3.0
 
 ```sh
-npm i kongou
-#Or using yarn
 yarn add kongou
 ```
 
 ```js
-import Kongou from 'kongou'
+import Kongou from 'kongou';
+import { QueryBuilder } from 'kongou/utils';
+import { SortType } from "kongou/types";
 
-new Kongou().<method>
+const kongou = new Kongou();
+
+kongou.getBook(1234);
+
+const query = new QueryBuilder();
+query.addTag()
 ```
 
-Use default if you are using es5 syntax.
+## Exports.
 
-```js
-const { default: Kongou } = require('kongou');
+- `kongou/utils`
+    - Contains QueryBuilder for creating a query with easy.
 
-new Kongou().<method>
-```
+- `kongou/enums`
+    - Contains basic enums.
 
-You can access interfaces by importing the interface file!
-
-```ts
-import Kongou from 'Kongou';
-import {} from 'Kongou/interfaces/';
-```
-
-Each class has it's own helper class, which makes your life easier.
-
-## Methods
-
-### `getBook(id: number): Promise<Book>`
-
-```ts
-new Kongou().getBook(363636);
-```
-
-### `getByQuery(query: string): Promise<BookQuery>`
-
-```ts
-new Kongou().getByQuery('Ichigo Cake to Mont Blanc');
-```
-
-### `getRandomBook(): Response`
-
-```ts
-new Kongou().getRandom();
-```
+- `kongou/types`
+    - Contains types of structures returned by the server.
 
 ## Contributors
 
+Thank you! <3
+
 - [Tracreed](https://git.fuyu.moe/Tracreed)
 - [sinkaroid](https://www.github.com/sinkaroid)
-
-**Thank you!** <3
