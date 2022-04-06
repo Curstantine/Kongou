@@ -1,10 +1,7 @@
-import { ImageObject, ImageTypes, UrlObject } from '../interfaces/common';
-import { ServerBook } from '../interfaces/response';
-
-const ext = {};
+import { ImageObject, ImageTypes, UrlObject, ServerBook } from '../types';
 
 export default class Images implements ImageTypes {
-  public static extension = {
+  public static readonly extension = {
     j: 'jpg',
     p: 'png',
     g: 'gif',
@@ -24,17 +21,17 @@ export default class Images implements ImageTypes {
     this.thumbnail = images.thumbnail;
   }
 
-  public getCover() {
+  public getCover(): string {
     return `${this.urls.full}/${this.media_id}/cover.${Images.extension[this.cover.t]}`;
   }
 
-  public getThumbnails() {
+  public getThumbnails(): string[] {
     return new Array(this.pages.length).fill(0).map((_, i) =>
       `${this.urls.thumb}/${this.media_id}/${i + 1}t.${Images.extension[this.thumbnail.t]}`,
     );
   }
 
-  public getPages() {
+  public getPages(): string[] {
     return this.pages.map((page, i) =>
       `${this.urls.full}/${this.media_id}/${i + 1}.${Images.extension[page.t]}`,
     );

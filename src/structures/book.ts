@@ -1,7 +1,6 @@
 import Tags from './tags';
-import Images from '../utils/images';
-import { Title, UrlObject } from '../interfaces/common';
-import { ServerBook } from '../interfaces/response';
+import Images from './images';
+import { Title, UrlObject, ServerBook } from '../types';
 
 export default class Book {
   public readonly id: number;

@@ -11,7 +11,8 @@
     "sinkaroid  <https://github.com/sinkaroid>"
   ],
   "scripts": {
-    "test": "loadr -- uvu tests"
+    "test": "loadr -c ./loadr.mjs -- uvu tests",
+    "test:dry": "tsm ./tests/dry.test.ts"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
-import Book from './utils/book';
-import { BookQuery, ServerBook, ServerBookQuery } from './interfaces/response';
-import { UrlObject } from './interfaces/common';
+
+import Book from './structures/book';
+import { BookQuery, ServerBook, ServerBookQuery, UrlObject } from './types';
 
 export default class Kongou {
   public readonly urls: UrlObject;

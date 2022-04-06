@@ -1,4 +1,5 @@
-import { TagObject, TagType } from '../interfaces/common';
+import { TagObject } from '../types';
+import { TagType } from '../enums';
 
 export default class Tags {
   private readonly tags: Map<TagType, TagObject[]>;
@@ -28,9 +29,6 @@ export default class Tags {
     return filter.map((tag) => new Tag(this.baseUrl, tag));
   }
 }
-
-// export class Tag<T extends TagType> implements TagObject
-// public readonly name: T extends TagType.Language ? LanguageType : string;
 
 export class Tag implements TagObject {
   public readonly id: number;

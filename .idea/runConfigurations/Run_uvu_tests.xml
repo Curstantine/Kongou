@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run uvu tests" type="CompoundRunConfigurationType">
+    <toRun name="test" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>

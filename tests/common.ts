@@ -5,10 +5,63 @@ import fetch from 'node-fetch';
 import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 
-import Book from '../src/utils/book';
-import Images from '../src/utils/images';
-import { ServerBook, ServerBookQuery } from '../src/interfaces/response';
-import { TagType } from '../src/interfaces/common';
+import Book from '../src/structures/book';
+import Images from '../src/structures/images';
+import { QueryBuilder } from '../src/utils';
+
+import { ServerBook, ServerBookQuery } from '../src/types';
+import { LanguageType, TagType } from '../src/enums';
+
+export const fragQueryBuilder = (testQueryBuilder: Test, queryBuilder: QueryBuilder) => {
+  testQueryBuilder.before.each(() => {
+    queryBuilder.flush();
+  });
+
+  testQueryBuilder('Empty', () => {
+    assert.equal(queryBuilder.build(), '');
+  });
+
+  testQueryBuilder('Single tag.', () => {
+    queryBuilder.addTag(TagType.Parody, 'tag1');
+
+    assert.equal(queryBuilder.build(), 'parody:tag1');
+  });
+
+  testQueryBuilder('Adding tags.', () => {
+    queryBuilder.addTag(TagType.Artist, 'artist1', 'artist2');
+    queryBuilder.addTag(TagType.Tag, 'tag1', 'tag2');
+
+    assert.equal(queryBuilder.build(), 'artist:artist1+artist:artist2+tag:tag1+tag:tag2');
+  });
+
+  testQueryBuilder('Single Language', () => {
+    queryBuilder.addLanguage(LanguageType.English);
+
+    assert.equal(queryBuilder.build(), 'language:english');
+  });
+
+  testQueryBuilder('Adding Languages.', () => {
+    queryBuilder.addLanguage(LanguageType.English, LanguageType.Japanese);
+
+    assert.equal(queryBuilder.build(), 'language:english+language:japanese');
+  });
+
+  testQueryBuilder('Mixed tags', () => {
+    queryBuilder.addTag(TagType.Tag, 'tag1');
+    queryBuilder.addLanguage(LanguageType.English);
+
+    const q = ['tag:tag1+language:english', 'language:english+tag:tag1'];
+    const qbr = queryBuilder.build();
+
+    if (!q.includes(qbr)) {
+      throw new Error(
+        `Doesn't match!\n      Expected value: ${q.join(' or ')}\n      Value returned: ${qbr}`,
+      );
+    }
+  });
+
+  testQueryBuilder.run();
+};
 
 export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: ServerBook) => {
   testLocalParsing('Book metadata.', () => {
