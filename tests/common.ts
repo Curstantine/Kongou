@@ -75,7 +75,11 @@ export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: S
 
   testLocalParsing('Metadata of tags.', () => {
     for (const name of Object.values(TagType)) {
-      book.tags.getTagsWithType(name).forEach((tag) => {
+      const tags = book.tags.getTagsWithType(name);
+
+      if (tags === undefined) throw new Error('Tag Array is empty.');
+
+      tags.forEach((tag) => {
         assert.equal(tag.type, name);
       });
     }
