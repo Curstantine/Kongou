@@ -32,49 +32,37 @@ export default class Kongou {
       throw error;
     };
 
-    try {
-      const response = await this.fetcher(`${this.urls.api}/gallery/${id}`);
+    const response = await this.fetcher(`${this.urls.api}/gallery/${id}`);
 
-      if (response.status !== 200) {
-        throwable(new Error(`Request failed with '${response.statusText} [${response.status}]'!`));
-      }
-
-      return new Book(this.urls, (await response.json()) as ServerBook);
-    } catch (error: any) {
-      throw new Error(error);
+    if (response.status !== 200) {
+      throwable(new Error(`Request failed with '${response.statusText} [${response.status}]'!`));
     }
+
+    return new Book(this.urls, (await response.json()) as ServerBook);
   }
 
   public async getByQuery(query: string): Promise<BookQuery> {
-    try {
-      const response = await this.fetcher(
-        `${this.urls.api}/galleries/search?query=${encodeURI(query)}`,
-      );
-      const data = (await response.json()) as ServerBookQuery;
+    const response = await this.fetcher(
+      `${this.urls.api}/galleries/search?query=${encodeURI(query)}`,
+    );
+    const data = (await response.json()) as ServerBookQuery;
 
-      const resultMap = new Map<Book['id'], Book>();
+    const resultMap = new Map<Book['id'], Book>();
 
-      data.result.forEach((result) => {
-        resultMap.set(result.id, new Book(this.urls, result));
-      });
+    data.result.forEach((result) => {
+      resultMap.set(result.id, new Book(this.urls, result));
+    });
 
-      return {
-        ...data,
-        result: resultMap,
-      };
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    return {
+      ...data,
+      result: resultMap,
+    };
   }
 
   public async getRandom(): Promise<Book> {
-    try {
-      const { url } = await this.fetcher(`${this.urls.base}/random`);
-      const id = url.replace(/[^0-9]/gm, '');
+    const { url } = await this.fetcher(`${this.urls.base}/random`);
+    const id = url.replace(/[^0-9]/gm, '');
 
-      return this.getBook(id);
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    return this.getBook(id);
   }
 }

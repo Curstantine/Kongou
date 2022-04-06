@@ -29,6 +29,9 @@
   ],
   "devDependencies": {
     "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint": "^8.12.0",
     "loadr": "^0.1.1",
     "prettier": "^2.6.1",
     "tsm": "^2.2.1",

@@ -15,14 +15,14 @@ export default class Tags {
     }
   }
 
-  public getTagsWithType(type: TagType): Tag[] {
-    return this.tags.get(type)!.map((tag) => new Tag(this.baseUrl, tag));
+  public getTagsWithType(type: TagType): Tag[] | undefined {
+    return this.tags.get(type)?.map((tag) => new Tag(this.baseUrl, tag));
   }
 
   public getAllTags(): Tag[] {
-    let filter = [];
+    const filter = [];
 
-    for (let value of this.tags.values()) {
+    for (const value of this.tags.values()) {
       filter.push(...value);
     }
 
