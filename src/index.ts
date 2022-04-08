@@ -26,24 +26,15 @@ export default class Kongou {
 
   public async getBook(id: number | string): Promise<Book> {
     if (typeof id === 'string' && id.match(/\D/) != null) {
-      throw new Error(`Given string contains non-numeric characters!`);
+      throw new Error(`Given string contains non-numeric characters.`);
     }
 
-    const throwable = (error: Error) => {
-      throw error;
-    };
-
-    try {
-      const response = await this.fetcher(`${this.urls.api}/gallery/${id}`);
-
-      if (response.status !== 200) {
-        throwable(new Error(`Request failed with '${response.statusText} [${response.status}]'!`));
-      }
-
-      return new Book(this.urls, (await response.json()) as ServerBook);
-    } catch (e) {
-      throw e;
+    const response = await this.fetcher(`${this.urls.api}/gallery/${id}`);
+    if (response.status !== 200) {
+      throw new Error(`Request failed with '${response.statusText} [${response.status}]'!`);
     }
+
+    return new Book(this.urls, (await response.json()) as ServerBook);
   }
 
   /// **NOTE**: If query is a string, it should follow the `query=` parameter format,
@@ -57,33 +48,28 @@ export default class Kongou {
       params = query;
     }
 
-    try {
-      const response = await this.fetcher(encodeURI(`${this.urls.api}/galleries/search?${params}`));
-      const data = (await response.json()) as ServerBookQuery;
-
-      const resultMap = new Map<Book['id'], Book>();
-
-      data.result.forEach((result) => {
-        resultMap.set(result.id, new Book(this.urls, result));
-      });
-
-      return {
-        ...data,
-        result: resultMap,
-      };
-    } catch (e) {
-      throw e;
+    const response = await this.fetcher(encodeURI(`${this.urls.api}/galleries/search?${params}`));
+    if (response.status !== 200) {
+      throw new Error(`Request failed with '${response.statusText} [${response.status}]'!`);
     }
+
+    const data = (await response.json()) as ServerBookQuery;
+    const resultMap = new Map<Book['id'], Book>();
+
+    data.result.forEach((result) => {
+      resultMap.set(result.id, new Book(this.urls, result));
+    });
+
+    return {
+      ...data,
+      result: resultMap,
+    };
   }
 
   public async getRandom(): Promise<Book> {
-    try {
-      const { url } = await this.fetcher(`${this.urls.base}/random`);
-      const id = url.replace(/[^0-9]/gm, '');
+    const { url } = await this.fetcher(`${this.urls.base}/random`);
+    const id = url.replace(/[^0-9]/gm, '');
 
-      return this.getBook(id);
-    } catch (e) {
-      throw e;
-    }
+    return this.getBook(id);
   }
 }

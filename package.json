@@ -2,7 +2,7 @@
   "type": "module",
   "name": "kongou",
   "version": "4.3.0",
-  "description": "Typescript client library for nhentai.",
+  "description": "A simple ESM typescript nhentai wrapper.",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
   "author": "Curstantine <resistlyfe@gmail.com>",
@@ -11,8 +11,8 @@
     "sinkaroid  <https://github.com/sinkaroid>"
   ],
   "scripts": {
-    "test": "loadr -c ./loadr.mjs -- uvu tests",
-    "test:dry": "tsm ./tests/dry.test.ts"
+    "test": "loadr -- uvu -i .*.dev.ts tests",
+    "test:dry": "loadr -- node ./tests/testing.dev.ts"
   },
   "repository": {
     "type": "git",

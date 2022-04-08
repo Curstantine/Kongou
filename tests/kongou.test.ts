@@ -30,5 +30,6 @@ for (const data of local.query.result) {
   const querySuite = suite(
     `<Kongou>.getByQuery(), Query: ${query.replace('query=', '')}, ID: ${data.id}`,
   );
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   compareABook(querySuite, queryAble.result.get(data.id)!, data);
 }

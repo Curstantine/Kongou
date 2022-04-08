@@ -1,5 +1,10 @@
 import { LanguageType, SortType, TagType } from '../enums';
 
+/**
+ * Builder methods for creating parameters used to query nhentai api.
+ *
+ * Use static {@link QueryBuilder.ugly} to create one quickly.
+ */
 export default class QueryBuilder {
   private tags: Map<TagType, string[]> = new Map<TagType, string[]>();
   private languages: LanguageType[] = [];
@@ -7,7 +12,7 @@ export default class QueryBuilder {
 
   private title?: string;
 
-  /// Quick and dirty way to create a Query;Builder.
+  /// Quick and dirty way to create a QueryBuilder.
   public static ugly(
     obj: {
       title?: string;
@@ -27,6 +32,7 @@ export default class QueryBuilder {
     return qb;
   }
 
+  /// Removes all the filtering done till now.
   public flush(): this {
     this.tags.clear();
     this.sort = SortType.Recent;
@@ -62,17 +68,22 @@ export default class QueryBuilder {
     return this;
   }
 
+  /**
+   * Builds the string with filtering done to this instance.
+   *
+   * Build sort: `title`, `language`, `tags`, `sort`
+   */
   public build() {
     const strings = [
       this.title ? `title:${this.title}` : null,
-      ...this.constructLanguages(),
+      ...this.languages.map((value) => `language:${value}`),
       ...this.constructTags(),
     ]
       .filter((s) => s != null)
       .join('+');
 
     return [
-      strings ? `query=${strings}` : null,
+      strings.length !== 0 ? `query=${strings}` : null,
       this.sort !== SortType.Recent ? `sort=${this.sort}` : null,
     ]
       .filter((s) => s != null)
@@ -87,9 +98,5 @@ export default class QueryBuilder {
     }
 
     return strings;
-  }
-
-  private constructLanguages() {
-    return this.languages.map((value) => `language:${value}`);
   }
 }
