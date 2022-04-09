@@ -7,13 +7,13 @@ A simple ESM typescript nhentai wrapper.
 Current Docs are for v4.3.0
 
 ```sh
-yarn add kongou
+yarn add @curstantine/kongou
 ```
 
 ```js
-import Kongou from 'kongou';
-import { QueryBuilder } from 'kongou/utils';
-import { SortType } from "kongou/types";
+import Kongou from '@curstantine/kongou';
+import { QueryBuilder } from '@curstantine/kongou/utils';
+import { SortType } from "@curstantine/kongou/types";
 
 const kongou = new Kongou();
 
