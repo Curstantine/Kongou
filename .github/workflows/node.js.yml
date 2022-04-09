@@ -5,9 +5,9 @@ name: uvu test runner with yarn
 
 on:
   push:
-    branches: [ v4-dev ]
+    branches: [ * ]
   pull_request:
-    branches: [ v4-dev ]
+    branches: [ * ]
 
 jobs:
   build:
