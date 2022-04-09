@@ -22,9 +22,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Installing yarn.
-        run: npm i -g yarn
-
       - name: Installing dependencies
         run: yarn install --forzen-lockfile
 
@@ -35,6 +32,9 @@ jobs:
         run: yarn run prepare
         
       - name: Publishing the package.
-        run: npm publish
+        uses: actions/setup-node@v3
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
