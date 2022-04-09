@@ -1,17 +1,22 @@
 {
-  "type": "module",
-  "name": "kongou",
+  "name": "@curstantine/kongou",
   "version": "4.3.0",
   "description": "A simple ESM typescript nhentai wrapper.",
-  "main": "./build/src/index.js",
-  "types": "./build/src/index.d.ts",
   "author": "Curstantine <resistlyfe@gmail.com>",
   "license": "MIT",
+  "main": "./build/cjs/index.js",
+  "module": "./build/esm/index.js",
+  "types": "./build/types/index.d.ts",
+  "files": [
+    "build/*"
+  ],
   "contributors": [
     "sinkaroid  <https://github.com/sinkaroid>"
   ],
   "scripts": {
-    "test": "loadr -- uvu -i .*.dev.ts tests",
+    "prepare": "yarn build",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "test": "loadr -- uvu tests .*.test.ts",
     "test:dry": "loadr -- node ./tests/testing.dev.ts"
   },
   "repository": {

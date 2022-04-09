@@ -4,6 +4,7 @@ import * as assert from 'uvu/assert';
 import fetch from 'node-fetch';
 import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
+import { resolve } from 'path';
 
 import Book from '../src/structures/book';
 import Images from '../src/structures/images';
@@ -11,8 +12,8 @@ import Images from '../src/structures/images';
 import { ServerBook, ServerBookQuery } from '../src/types';
 import { TagType } from '../src/enums';
 
-export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: ServerBook) => {
-  testLocalParsing('Book metadata.', () => {
+export const compareABook = (testLocalParsing: Test<{ book: Book }>, expectedBook: ServerBook) => {
+  testLocalParsing('Book metadata.', ({ book }) => {
     assert.equal(book.id, expectedBook.id);
     assert.equal(book.title, expectedBook.title);
     assert.equal(book.media_id, expectedBook.media_id);
@@ -21,7 +22,7 @@ export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: S
     assert.equal(book.num_pages, expectedBook.num_pages);
   });
 
-  testLocalParsing('Metadata of tags.', () => {
+  testLocalParsing('Metadata of tags.', ({ book }) => {
     for (const name of Object.values(TagType)) {
       const tags = book.tags.getTagsWithType(name);
 
@@ -33,7 +34,7 @@ export const compareABook = (testLocalParsing: Test, book: Book, expectedBook: S
     }
   });
 
-  testLocalParsing('Image data', () => {
+  testLocalParsing('Image data', ({ book }) => {
     assert.equal(book.images.cover, expectedBook.images.cover);
     assert.equal(book.images.thumbnail, expectedBook.images.thumbnail);
     assert.equal(book.images.pages, expectedBook.images.pages);
@@ -73,8 +74,10 @@ type CacheFile = {
 };
 
 export const handleResourceCache = async (id: number, queryString: string) => {
-  if (existsSync('./cache.json')) {
-    const cacheBuffer = await readFile('./cache.json');
+  const cachePath = resolve('tests', 'cache.json');
+
+  if (existsSync(cachePath)) {
+    const cacheBuffer = await readFile(cachePath);
     return JSON.parse(cacheBuffer.toString()) as CacheFile;
   }
 
@@ -82,7 +85,7 @@ export const handleResourceCache = async (id: number, queryString: string) => {
   const query = (await getFromServer(queryString, 'books')) as ServerBookQuery;
 
   const cacheFile: CacheFile = { book, query };
-  await writeFile('./cache.json', JSON.stringify(cacheFile));
+  await writeFile(cachePath, JSON.stringify(cacheFile));
 
   return cacheFile;
 };
