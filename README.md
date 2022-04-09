@@ -1,34 +1,38 @@
 # Kongou
 
-A simple ESM typescript nhentai wrapper.
+A simple CommonJS and ES Module typescript client library for nhentai.
 
 ## Usage
 
-Current Docs are for v4.3.0
+Current Docs are for v5.0.0
 
-```sh
+```shell
 yarn add @curstantine/kongou
 ```
 
 ```js
-import Kongou from '@curstantine/kongou';
-import { QueryBuilder } from '@curstantine/kongou/utils';
-import { SortType } from "@curstantine/kongou/types";
+import {Longou, TagType, SortType, LanguageType} from "@curstantine/kongou";
 
-const kongou = new Kongou();
+// Fetching library that implements the fetch api.
+// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+const kongou = new Kongou(fetch);
+await kongou.getBook(1234);
 
-kongou.getBook(1234);
-
-const query = new QueryBuilder();
-query.addTag()
+const query = new QueryBuilder()
+        .addTag(TagType.Artist)
+        .addLanguage(LanguageType.English)
+        .setSort(SortType.Recent);
+await kongou.getByQuery(query);
 ```
 
 ## Exports.
 
-- `kongou/utils`
+**x** is the module type.
+
+- `kongou/x/utils`
     - Contains QueryBuilder for creating a query with easy.
 
-- `kongou/enums`
+- `kongou/x/enums`
     - Contains basic enums.
 
 - `kongou/types`

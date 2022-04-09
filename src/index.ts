@@ -1,15 +1,19 @@
-import fetch from 'node-fetch';
+import type fetch from 'node-fetch';
 
 import Book from './structures/book';
 import { BookQuery, ServerBook, ServerBookQuery, UrlObject } from './types';
-import { QueryBuilder } from './utils/index';
 
-export default class Kongou {
+import { QueryBuilder } from './utils/index';
+import * as Enums from './enums';
+
+export { QueryBuilder, Kongou, Enums };
+
+class Kongou {
   public readonly urls: UrlObject;
   private readonly fetcher: typeof fetch;
 
-  constructor(fetcher?: typeof fetch, urls?: UrlObject) {
-    this.fetcher = fetcher ?? fetch;
+  constructor(fetcher: typeof fetch, urls?: UrlObject) {
+    this.fetcher = fetcher;
     this.urls = urls ?? Kongou.defaultUrls();
   }
 

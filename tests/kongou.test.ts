@@ -1,16 +1,16 @@
 import { suite } from 'uvu';
+import fetch from "node-fetch";
 import { compareABook, getFromServer, handleResourceCache } from './common';
 
 import Book from '../src/structures/book';
-import Kongou from '../src/index';
-import { QueryBuilder } from '../src/utils/index';
+import { Kongou, QueryBuilder } from '../src/index';
 import { ServerBook } from '../src/types';
 
 const id = 4412;
 const query = QueryBuilder.ugly({ title: 'test' }).build();
 
 const local = await handleResourceCache(id, query);
-const kongou = new Kongou();
+const kongou = new Kongou(fetch);
 
 compareABook(
   suite('Local Test, Book parsing.', { book: new Book(Kongou.defaultUrls(), local.book) }),
