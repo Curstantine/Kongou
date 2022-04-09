@@ -1,47 +1,44 @@
 {
+  "type": "module",
   "name": "kongou",
-  "version": "4.1.0",
-  "description": "A simple typescript nhentai wrapper.",
-  "author": "Curstantine",
-  "license": "MIT",
+  "version": "4.3.0",
+  "description": "A simple ESM typescript nhentai wrapper.",
   "main": "./build/src/index.js",
   "types": "./build/src/index.d.ts",
+  "author": "Curstantine <resistlyfe@gmail.com>",
+  "license": "MIT",
+  "contributors": [
+    "sinkaroid  <https://github.com/sinkaroid>"
+  ],
   "scripts": {
-    "test:mocha": "mocha ./build/test/mocha.test.js",
-    "test:dry": "node ./build/test/kongou.test.js"
+    "test": "loadr -- uvu -i .*.dev.ts tests",
+    "test:dry": "loadr -- node ./tests/testing.dev.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Curstantine/kongou.git"
   },
-  "keywords": [
-    "typescript",
-    "nhentai",
-    "kongou",
-    "hentai",
-    "library",
-    "wrapper"
-  ],
   "bugs": {
     "url": "https://github.com/Curstantine/Kongou/issues"
   },
   "homepage": "https://github.com/Curstantine/Kongou#readme",
+  "keywords": [
+    "typescript",
+    "nhentai",
+    "kongou"
+  ],
   "devDependencies": {
-    "@types/chai": "^4.2.22",
-    "@types/mocha": "^9.0.0",
-    "@types/node-fetch": "2.5.6",
-    "@typescript-eslint/eslint-plugin": "^4.31.2",
-    "@typescript-eslint/parser": "^4.31.2",
-    "chai": "^4.3.4",
-    "eslint": "^7.32.0",
-    "eslint-config-plugin": "^1.0.11",
-    "eslint-config-prettier": "^8.3.0",
-    "mocha": "^9.1.2",
-    "prettier": "^2.4.1",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint": "^8.12.0",
+    "loadr": "^0.1.1",
+    "prettier": "^2.6.1",
+    "tsm": "^2.2.1",
+    "typescript": "^4.6.3",
+    "uvu": "^0.5.3"
   },
   "dependencies": {
-    "node-fetch": "^2.6.5"
+    "node-fetch": "^3.2.3"
   }
 }

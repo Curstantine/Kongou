@@ -1,67 +1,75 @@
-import fetch, { Response, RequestInfo, RequestInit } from 'node-fetch';
-import Book from './utils/book';
-import { BookQuery, ServerBookQuery } from './interfaces/response';
+import fetch from 'node-fetch';
 
-const baseURL = 'https://nhentai.net';
-const apiURL = `${baseURL}/api`;
+import Book from './structures/book';
+import { BookQuery, ServerBook, ServerBookQuery, UrlObject } from './types';
+import { QueryBuilder } from './utils/index';
 
 export default class Kongou {
-  private fetcher: (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>;
+  public readonly urls: UrlObject;
+  private readonly fetcher: typeof fetch;
 
-  constructor() {
-    this.fetcher = fetch;
+  constructor(fetcher?: typeof fetch, urls?: UrlObject) {
+    this.fetcher = fetcher ?? fetch;
+    this.urls = urls ?? Kongou.defaultUrls();
   }
 
-  public async getBook(id: number): Promise<Book> {
-    const typeofid = typeof id;
-
-    if (typeofid !== 'number') {
-      throw new Error(`Expected typeof id to be number but got: ${typeofid}`);
-    }
-
-    try {
-      const response = await this.fetcher(`${apiURL}/gallery/${id}`);
-      const book = new Book(await response.json());
-      return book;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+  public static defaultUrls() {
+    return {
+      base: 'https://nhentai.net',
+      api: 'https://nhentai.net/api',
+      images: {
+        full: 'https://i.nhentai.net/galleries',
+        thumb: 'https://t.nhentai.net/galleries',
+      },
+    };
   }
 
-  public async getByQuery(query: string): Promise<BookQuery> {
-    try {
-      const response = await this.fetcher(`${apiURL}/galleries/search?query=${encodeURI(query)}`);
-      const data: ServerBookQuery = await response.json();
-
-      const resultMap = new Map<Book['id'], Book>();
-
-      for (let result = 0; result < 0; result++) {
-        const currentResult = data.result[result];
-        resultMap.set(currentResult.id, new Book(currentResult));
-      }
-
-      return {
-        ...data,
-        result: resultMap,
-      };
-    } catch (error: any) {
-      throw new Error(error);
+  public async getBook(id: number | string): Promise<Book> {
+    if (typeof id === 'string' && id.match(/\D/) != null) {
+      throw new Error(`Given string contains non-numeric characters.`);
     }
+
+    const response = await this.fetcher(`${this.urls.api}/gallery/${id}`);
+    if (response.status !== 200) {
+      throw new Error(`Request failed with '${response.statusText} [${response.status}]'!`);
+    }
+
+    return new Book(this.urls, (await response.json()) as ServerBook);
+  }
+
+  /// **NOTE**: If query is a string, it should follow the `query=` parameter format,
+  /// you can use {@link QueryBuilder.ugly} to create a one easily.
+  public async getByQuery(query: QueryBuilder | string): Promise<BookQuery> {
+    let params;
+
+    if (query instanceof QueryBuilder) {
+      params = query.build();
+    } else {
+      params = query;
+    }
+
+    const response = await this.fetcher(encodeURI(`${this.urls.api}/galleries/search?${params}`));
+    if (response.status !== 200) {
+      throw new Error(`Request failed with '${response.statusText} [${response.status}]'!`);
+    }
+
+    const data = (await response.json()) as ServerBookQuery;
+    const resultMap = new Map<Book['id'], Book>();
+
+    data.result.forEach((result) => {
+      resultMap.set(result.id, new Book(this.urls, result));
+    });
+
+    return {
+      ...data,
+      result: resultMap,
+    };
   }
 
   public async getRandom(): Promise<Book> {
-    try {
-      const { redirected, url } = await this.fetcher(`${baseURL}/random`);
+    const { url } = await this.fetcher(`${this.urls.base}/random`);
+    const id = url.replace(/[^0-9]/gm, '');
 
-      if (!redirected) {
-        throw new Error('Failed to redirect the page to the randomized id');
-      }
-
-      const response = await this.fetcher(`${apiURL}/gallery/${url.replace(/[^0-9]/gm, '')}`);
-      const book = new Book(await response.json());
-      return book;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    return this.getBook(id);
   }
 }

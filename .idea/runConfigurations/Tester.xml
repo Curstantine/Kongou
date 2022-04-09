@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tester" type="NodeJSConfigurationType" node-parameters="--loader tsm" path-to-js-file="./tests/testing.dev.ts" working-dir="$PROJECT_DIR$">
+    <method v="2" />
+  </configuration>
+</component>
