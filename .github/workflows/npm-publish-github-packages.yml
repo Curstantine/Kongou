@@ -5,7 +5,7 @@ name: Node.js Package
 
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   publish-gpr:
@@ -24,14 +24,16 @@ jobs:
 
       - name: Installing dependencies
         run: yarn install --forzen-lockfile
-        
+
       - name: Preparing the package.
         run: yarn run prepare
-        
-      - name: Publishing the package.
+
+      - name: Setting up package.
         uses: actions/setup-node@v3
         with:
           registry-url: 'https://npm.pkg.github.com'
+
+      - name: Publishing the package.
         run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
