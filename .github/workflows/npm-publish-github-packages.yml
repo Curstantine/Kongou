@@ -24,9 +24,6 @@ jobs:
 
       - name: Installing dependencies
         run: yarn install --forzen-lockfile
-
-      - name: Running tests.
-        run: yarn run test
         
       - name: Preparing the package.
         run: yarn run prepare
