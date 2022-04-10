@@ -1,6 +1,6 @@
 {
   "name": "@curstantine/kongou",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A simple typescript nhentai wrapper.",
   "author": "Curstantine <resistlyfe@gmail.com>",
   "license": "MIT",
@@ -39,6 +39,7 @@
     "@typescript-eslint/parser": "^5.18.0",
     "eslint": "^8.12.0",
     "loadr": "^0.1.1",
+    "node-fetch": "^3.2.3",
     "prettier": "^2.6.1",
     "rimraf": "^3.0.2",
     "tsm": "^2.2.1",
@@ -46,6 +47,6 @@
     "uvu": "^0.5.3"
   },
   "dependencies": {
-    "node-fetch": "^3.2.3"
+    "@types/node-fetch": "^2.6.1"
   }
 }

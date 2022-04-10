@@ -1,10 +1,14 @@
 # Kongou
 
+[![CodeQL](https://github.com/Curstantine/Kongou/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Curstantine/Kongou/actions/workflows/codeql-analysis.yml)
+
 A simple CommonJS and ES Module typescript client library for nhentai.
 
 ## Usage
 
-Current Docs are for v5.0.0
+Current Docs are for v5.0.x
+
+**NOTE:** NPM Package has been removed and moved to [GitHub's Package Registry](https://github.com/Curstantine/Kongou/packages/)!
 
 ```shell
 yarn add @curstantine/kongou
