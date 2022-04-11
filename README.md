@@ -34,7 +34,7 @@ await kongou.getByQuery(query);
 **x** is the module type.
 
 - `kongou/x/utils`
-    - Contains QueryBuilder for creating a query with easy.
+    - Contains QueryBuilder for creating a query with ease.
 
 - `kongou/x/enums`
     - Contains basic enums.
