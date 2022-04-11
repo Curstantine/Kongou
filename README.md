@@ -15,7 +15,7 @@ yarn add @curstantine/kongou
 ```
 
 ```js
-import {Longou, TagType, SortType, LanguageType} from "@curstantine/kongou";
+import {Kongou, TagType, SortType, LanguageType} from "@curstantine/kongou";
 
 // Fetching library that implements the fetch api.
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
