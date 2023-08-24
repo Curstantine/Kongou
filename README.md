@@ -1,5 +1,8 @@
 # Kongou
 
+> [!NOTE]
+> This project is very much abandoned now, but it should theoratically work till nhentai devs do changes to the response structures.
+
 [![CodeQL](https://github.com/Curstantine/Kongou/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Curstantine/Kongou/actions/workflows/codeql-analysis.yml)
 
 A simple CommonJS and ES Module typescript client library for nhentai.
