@@ -1,7 +1,7 @@
 # Kongou
 
 > [!NOTE]
-> This project is very much abandoned now, but it should theoratically work till nhentai devs do changes to the response structures.
+> This project is very much abandoned now, but it should work till the nh devs change something.
 
 [![CodeQL](https://github.com/Curstantine/Kongou/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Curstantine/Kongou/actions/workflows/codeql-analysis.yml)
 
